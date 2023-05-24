@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Higia - Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css')}}">
+
+	<script src="https://cdn.tailwindcss.com"></script>
+	</head>
+	<body class="">
+		<div class="w-full flex flex-wrap">
+
+			<!-- Login Section -->
+			<div class="w-full md:w-1/2 flex flex-col bg-indigo-100">
+
+				<!--
+				 <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
+					<a href="#" class="bg-black text-white font-bold text-xl p-4">Logo</a>
+				</div>
+				-->
+
+				<div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
+					<p class="text-center text-3xl font-mono text-gray-600">Welcome to Higia</p>
+					<form class="flex flex-col pt-3 md:pt-8" onsubmit="event.preventDefault();">
+						<div class="flex flex-col pt-4">
+							<label for="email" class="text-lg text-gray-600">Email</label>
+							<input type="email" id="email" placeholder="your@email.com" class="shadow appearance-none
+							  border rounded w-full h-11 py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none
+							  focus:shadow-outline invalid:border-pink-600 invalid:text-pink-600 peer
+							   focus:border-sky-500 focus:ring-sky-500 transition duration-300 focus:invalid:border-pink-600">
+							 <p class="invisible peer-invalid:visible text-pink-600 text-sm ">
+							   Please provide a valid email address.
+							 </p>
+						</div>
+
+						<div class="flex flex-col pt-4 mb-4">
+							<label for="password" class="text-lg text-gray-600">Password</label>
+							<input type="password" id="password" placeholder="*********" minlength="6" class="shadow
+							 focus:outline-none focus:border-sky-500 focus:ring-sky-500 appearance-none border
+							  rounded w-full h-11 py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline
+							   required:border-red-500 transition duration-300 out-of-range:border-pink-600">
+						</div>
+
+						<input type="submit" value="Log In" class="bg-gray-800 text-white font-bold text-lg border-2 border-gray-600 hover:bg-red-400 hover:border-2 hover:border-red-400 p-2 mt-8 transition duration-500 rounded">
+					</form>
+					<div class="font-mono text-center pt-12 pb-12">
+						<p class="text-gray-800">Don't have an account? <a href="register.html" class="underline font-semibold text-red-400">Register here.</a></p>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Image Section -->
+			<div class="w-1/2 shadow-2xl">
+				<img class="bg-cover object-cover w-full h-screen hidden md:block" src="{{ url_for('static', filename='images/higia_heart.jpg')}}">
+			</div>
+   	 	</div>
+
+	</body>
+</html>
+
