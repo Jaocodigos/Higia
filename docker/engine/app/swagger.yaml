@@ -1,0 +1,34 @@
+openapi: 3.0.1
+info:
+  title: Higia
+  version: 1.0.0
+
+servers:
+  - url: /api
+
+paths:
+  /roles:
+    get:
+      tags:
+        - Roles
+      summary: Retrieve registered roles.
+      responses:
+        '200':
+          description: OK
+
+  /settings:
+    get:
+      tags:
+        - Settings
+      summary: Retrieve system settings.
+      responses:
+        '200':
+          description: OK
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Retrieve registered users.
+      responses:
+        '200':
+          description: OK
