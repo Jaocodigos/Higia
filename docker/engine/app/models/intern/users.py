@@ -1,6 +1,7 @@
 from engine.app.models import db
 from .default import DefaultModel
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Users(DefaultModel, db.Model):
@@ -30,3 +31,16 @@ class Users(DefaultModel, db.Model):
             is_locked=self.locked,
             roles=self.roles
         )
+
+    def set_hash_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_authorization(self, password):
+        if check_password_hash(self.password, password):
+            return True
+        return False
+
+    def check_roles(self, roles: list):
+        if len(roles) > 0 and any(x in roles for x in self.roles):
+            return True
+        return False
