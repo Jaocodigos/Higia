@@ -14,7 +14,35 @@ paths:
       summary: Retrieve registered roles.
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/ResponseOK'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+
+    post:
+      tags:
+        - Roles
+      summary: Create a new role.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                role_name:
+                  type: string
+                  description: Role name.
+      responses:
+        '201':
+          $ref: '#/components/responses/ResponseCreated'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: []
 
   /settings:
     get:
@@ -32,3 +60,95 @@ paths:
       responses:
         '200':
           description: OK
+
+
+components:
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+    basic_client:
+      type: http
+      scheme: basic
+    ClientId:
+      type: apiKey
+      in: header
+      name: client-id
+    AccessKey:
+      type: apiKey
+      in: header
+      name: client-access-key
+
+  schemas:
+    Success:
+      description: Response Message with Success case fields.
+      type: object
+    Error:
+      description: Response Message with error fields.
+      type: object
+
+  responses:
+    ResponseOK:
+      description: Default success response for 200 status code.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Success'
+    ResponseCreated:
+      description: Default success response for 201 status code.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Success'
+    ResponseBadRequest:
+      description: Default error response for 400 status code.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+    ResponseUnauthorized:
+      description: Default error response for 401 status code.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+    ResponseForbidden:
+      description: Default error response for 403 status code.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+    ResponseNotFound:
+      description: Default error response for 404 status code.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+    ResponseMethodNotAllowed:
+      description: Default error response for 405 status code.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+    ResponseConflict:
+      description: Default error response for 409 status code.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+    ResponseInternalServerError:
+      description: Default error response for 500 status code.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+

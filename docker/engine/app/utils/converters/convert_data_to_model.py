@@ -1,0 +1,27 @@
+from flask_marshmallow import Schema
+from flask_sqlalchemy.model import Model
+from marshmallow import ValidationError
+from flask import abort
+import logging
+
+log = logging.getLogger("Higia." + __name__)
+
+
+def convert_json_to_model(model: Model, schema: Schema, data: dict):
+    try:
+        schema.load(data)
+    except ValidationError as ve:
+        log.error(f"Error Validating data: {ve}")
+        abort(400, f"Invalid data: {ve}")
+    log.debug("Validated! Now creating a new model.")
+    try:
+        for x in data.keys():
+            if hasattr(model, x):
+                log.debug(f"Inserting on {x} the value {data[x]}")
+                model.__setattr__(x, data[x])
+    except (KeyError, ValueError):
+        abort(400, "Invalid data, try again.")
+
+    log.debug("Schema load completed! Now saving on DB.")
+    model.save()
+    return model.serialized
