@@ -10,8 +10,8 @@ def create_id():
 
 class DefaultModel(object):
 
-    id = db.Column(db.String(50), primary_key=True)
-    created_at = db.Column(db.DateTime, default=datetime.now().strftime("%d/%m/%Y, %H:%M:%S"), index=True)
+    id = db.Column(db.String(50), primary_key=True, default=create_id())
+    created_at = db.Column(db.DateTime, default=datetime.now(), index=True)
 
     def save(self):
         db.session.add(self)

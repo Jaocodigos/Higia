@@ -19,7 +19,7 @@ class Users(DefaultModel, db.Model):
     locked = db.Column(db.Boolean, default=False)
     blocked_until = db.Column(db.DateTime)
     login_tries = db.Column(db.Integer, default=0)
-    roles = db.relationship('Roles', backref='user', lazy="dynamic")
+    roles = db.Column(db.Text(20000), default='[]')
 
     def serialized(self):
         return dict(
