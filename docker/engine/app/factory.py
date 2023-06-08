@@ -3,6 +3,7 @@ from engine.app.config.environment import get_flask_config
 from engine.app.config.swagger_specs import APIDocs, set_swagger_config
 from flask import Flask
 from flask_migrate import Migrate
+from engine.app.schemas import ma
 import logging
 
 log = logging.getLogger("Higia." + __name__)
@@ -17,6 +18,9 @@ def init_app():
     log.debug("Init database.")
     db.init_app(app)
     Migrate(app, db, directory="migrations")
+
+    log.debug("Init Marshmallow")
+    ma.init_app(app)
 
     log.debug("Registering blueprints.")
     from engine.app.resources.api import api
