@@ -26,3 +26,14 @@ def add_role():
     role = convert_json_to_model(Roles(), RoleSchema(), data)
     log.debug(f'Role created: {role["role_name"]}')
     return jsonify({'RoleID': role['id']}), 201
+
+
+@api.route('/roles/<string:role_name>', methods=['DELETE'])
+@api_auth(roles=['administrator'])
+def delete_role(role_name):
+    log.info(f'Deleting role {role_name}.')
+    role = Roles.query.filter_by(role_name=role_name).first_or_404()
+    log.debug(f'Deleting role with ID: {role.id}')
+    role.delete()
+    log.info("Role deleted!")
+    return jsonify({'Status': 'Deleted!'}), 200

@@ -43,6 +43,29 @@ paths:
           $ref: '#/components/responses/ResponseInternalServerError'
       security:
         - basic: []
+  /roles/{role_name}:
+    delete:
+      tags:
+        - Roles
+      summary: Delete a created role by name.
+      parameters:
+        - in: path
+          name: role_name
+          description: Name of created role.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
 
   /settings:
     get:
