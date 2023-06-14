@@ -75,6 +75,7 @@ paths:
       responses:
         '200':
           description: OK
+
   /users:
     get:
       tags:
@@ -82,7 +83,126 @@ paths:
       summary: Retrieve registered users.
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/ResponseOK'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+    post:
+      tags:
+        - Users
+      summary: Create a new User.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                identifier:
+                  type: string
+                  description: User identifier(CPF).
+                email:
+                  type: string
+                  description: User email.
+                first_name:
+                  type: string
+                  description: User's first name.
+                last_name:
+                  type: string
+                  description: User's last name.
+                password:
+                  type: string
+                  description: User password.
+                cep:
+                  type: string
+                  description: CEP for identify localization.
+                phone:
+                  type: string
+                  description: User's cellphone.
+                roles:
+                  type: string
+                  description: User's privilege role.
+      responses:
+        '201':
+          $ref: '#/components/responses/ResponseCreated'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+  /users/{identifier}:
+    put:
+      tags:
+        - Users
+      summary: Update user data.
+      parameters:
+        - in: path
+          name: identifier
+          description: User identifier(CPF).
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                identifier:
+                  type: string
+                  description: User identifier(CPF).
+                email:
+                  type: string
+                  description: User email.
+                first_name:
+                  type: string
+                  description: User's first name.
+                last_name:
+                  type: string
+                  description: User's last name.
+                password:
+                  type: string
+                  description: User password.
+                cep:
+                  type: string
+                  description: CEP for identify localization.
+                phone:
+                  type: string
+                  description: User's cellphone.
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+    delete:
+      tags:
+        - Users
+      summary: Delete a created user by identifier.
+      parameters:
+        - in: path
+          name: identifier
+          description: User identifier(CPF).
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
 
 
 components:

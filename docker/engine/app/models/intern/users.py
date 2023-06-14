@@ -14,13 +14,14 @@ class Users(DefaultModel, db.Model):
     password = db.Column(db.String(500))
     phone = db.Column(db.String(13), unique=True)
     cep = db.Column(db.String(255))
-    last_login = db.Column(db.DateTime, default=datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
+    last_login = db.Column(db.DateTime, default=datetime.now())
     last_password_change = db.Column(db.DateTime)
     locked = db.Column(db.Boolean, default=False)
     blocked_until = db.Column(db.DateTime)
     login_tries = db.Column(db.Integer, default=0)
-    roles = db.Column(db.Text(20000), default='[]')
+    roles = db.Column(db.Text(20000), default='users')
 
+    @property
     def serialized(self):
         return dict(
 
