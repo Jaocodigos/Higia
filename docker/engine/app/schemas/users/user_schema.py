@@ -1,10 +1,10 @@
-
 from flask_marshmallow import Schema
 from marshmallow import validates_schema, ValidationError
 from engine.app.models.intern.users import Users
 from engine.app.models.intern.roles import Roles
 from engine.app.schemas.types import Types
 from engine.app.utils.validators.password_validator import validate_password_policy
+from engine.app.utils.validators.identifier_validator import validate_identifier
 import logging
 
 log = logging.getLogger("Higia." + __name__)
@@ -29,8 +29,9 @@ class UserSchema(Schema):
             log.error("This identifier is already in use.")
             raise ValidationError("This identifier is already in use.")
         if len(data.get('identifier')) > 11 or not data.get('identifier').isdigit():
-            log.error("The identifier format is incorrect.")
-            raise ValidationError("Invalid identifier format, the correct format must contain 11 chars.")
+            if not validate_identifier(data.get('identifier')):
+                log.error("The identifier format is incorrect.")
+                raise ValidationError("Invalid identifier, the correct format must contain 11 numbers.")
         if '.com' not in data.get('email') or '@' not in data.get('email'):
             log.error("Invalid email.")
             raise ValidationError("Invalid email.")
