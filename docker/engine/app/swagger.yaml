@@ -75,6 +75,58 @@ paths:
       responses:
         '200':
           description: OK
+      security:
+        - basic: [ ]
+    post:
+      tags:
+        - Settings
+      summary: Update system configuration.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                lockout:
+                  type: boolean
+                  description: Enable/Disable intruder lockout.
+                lockout_tries:
+                  type: integer
+                  description: Number of tries until block.
+                lockout_time:
+                  type: integer
+                  description: Block time(in hours).
+                log_level:
+                  type: string
+                  description: Log level.
+                password_length:
+                  type: integer
+                  description: Password length(total).
+                password_numbers:
+                  type: integer
+                  description: Numbers length.
+                password_letters:
+                  type: integer
+                  description: Letters length.
+                password_caps:
+                  type: integer
+                  description: High letters length.
+                password_lower:
+                  type: integer
+                  description: Low letters length.
+                password_special:
+                  type: integer
+                  description: Special chars length.
+      responses:
+        '201':
+          $ref: '#/components/responses/ResponseCreated'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
 
   /users:
     get:
