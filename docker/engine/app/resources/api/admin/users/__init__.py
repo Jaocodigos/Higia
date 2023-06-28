@@ -3,6 +3,7 @@ from engine.app.services.authentication import api_auth
 from engine.app.models.intern.users import Users
 from flask import request, abort, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
+from engine.app.utils.converters.convert_user_datas import convert_identifier
 from engine.app.schemas.users.user_schema import UserSchema, UserUpdateSchema
 import logging
 
@@ -23,7 +24,7 @@ def list_users():
 def add_user():
     log.info('Creating a new user.')
     data = request.json
-    user = convert_json_to_model(Users(), UserSchema(), data)
+    user = convert_json_to_model(Users(), UserSchema(), data, converters={'identifier': convert_identifier})
     log.debug(f'User created: {user["name"]}')
     return user, 201
 
