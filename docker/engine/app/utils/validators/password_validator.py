@@ -10,6 +10,7 @@ def validate_password_policy(password):
     set_default_db_config()
     settings = Settings.query.first()
     if len(password) > settings.password_length:
+        log.error(f"The password must contain at less {settings.password_length} chars.")
         return False
     letters = 0
     numbers = 0
@@ -28,13 +29,18 @@ def validate_password_policy(password):
         elif c.isalnum():
             special += 1
     if numbers < settings.password_numbers:
+        log.error(f"The password must contain at less {settings.password_numbers} numbers.")
         return False
     if letters < settings.password_letters:
+        log.error(f"The password must contain at less {settings.password_letters} letters.")
         return False
     if lower < settings.password_lower:
+        log.error(f"The password must contain at less {settings.password_lower} lower chars.")
         return False
     if high < settings.password_caps:
+        log.error(f"The password must contain at less {settings.password_caps} high chars.")
         return False
     if special < settings.password_special:
+        log.error(f"The password must contain at less {settings.password_special} special chars.")
         return False
     return True

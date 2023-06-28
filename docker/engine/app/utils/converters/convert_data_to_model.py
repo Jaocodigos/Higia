@@ -7,7 +7,7 @@ import logging
 log = logging.getLogger("Higia." + __name__)
 
 
-def convert_json_to_model(model: Model, schema: Schema, data: dict):
+def convert_json_to_model(model: Model, schema: Schema, data: dict, converters={}):
     try:
         schema.load(data)
     except ValidationError as ve:
@@ -16,6 +16,9 @@ def convert_json_to_model(model: Model, schema: Schema, data: dict):
     log.debug("Validated! Now creating a new model.")
     try:
         for x in data.keys():
+            if x in converters.keys():
+                log.debug(f"Converting {x} for pass to model")
+                data[x] = converters[x](data[x])
             if hasattr(model, x):
                 log.debug(f"Inserting on {x} the value {data[x]}")
                 model.__setattr__(x, data[x])
