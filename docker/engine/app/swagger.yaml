@@ -127,6 +127,18 @@ paths:
           $ref: '#/components/responses/ResponseInternalServerError'
       security:
         - basic: [ ]
+  /testing:
+    get:
+      tags:
+        - Testing
+      summary: Create models in testing env.
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
 
   /users:
     get:
