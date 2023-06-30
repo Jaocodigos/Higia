@@ -5,7 +5,7 @@ from .default import DefaultModel
 class Scheduling(DefaultModel, db.Model):
     __tablename__ = 'scheduling'
 
-    description = db.Column(db.Text(), nullable=False)
+    description = db.Column(db.Text(), nullable=True)
     local = db.Column(db.Text(), nullable=False)
     specialty = db.Column(db.String(100), nullable=False)
     appointment_day = db.Column(db.DateTime, nullable=False)

@@ -20,6 +20,8 @@ class Users(DefaultModel, db.Model):
     blocked_until = db.Column(db.DateTime)
     login_tries = db.Column(db.Integer, default=0)
     roles = db.Column(db.Text(20000), default='users')
+    exams = db.relationship('Exams', backref='patient', lazy='joined')
+    schedulings = db.relationship('Scheduling', backref='patient', lazy='joined')
 
     @property
     def serialized(self):
