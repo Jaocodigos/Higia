@@ -12,5 +12,20 @@ class Scheduling(DefaultModel, db.Model):
     details = db.Column(db.Text(), nullable=True)
     return_date = db.Column(db.DateTime, nullable=True)
     patient = db.Column(db.String(50), db.ForeignKey("users.id"))
+    patient_name = db.Column(db.String(100), nullable=False)
+    patient_identifier = db.Column(db.String(11), nullable=False)
     doctor = db.Column(db.String(50), db.ForeignKey("users.id"))
+    doctor_name = db.Column(db.String(100), nullable=False)
+
+    @property
+    def serialized(self):
+        return dict(
+            patient=self.patient,
+            speicialty=self.specialty,
+            local=self.patient,
+            date=self.appointment_day,
+            description=self.description,
+            details=self.details,
+            return_on=self.return_date
+        )
 

@@ -19,9 +19,11 @@ class Users(DefaultModel, db.Model):
     locked = db.Column(db.Boolean, default=False)
     blocked_until = db.Column(db.DateTime)
     login_tries = db.Column(db.Integer, default=0)
-    roles = db.Column(db.Text(20000), default='users')
-    exams = db.relationship('Exams', backref='patient', lazy='joined')
-    schedulings = db.relationship('Scheduling', backref='patient', lazy='joined')
+    roles = db.Column(db.Text(20000), default='patient')
+    patient_exams = db.relationship('Exams', lazy='dynamic', foreign_keys='Exams.patient')
+    doctor_exams = db.relationship('Exams', lazy='dynamic', foreign_keys='Exams.doctor')
+    patient_schedulers = db.relationship('Scheduling', lazy='dynamic', foreign_keys='Scheduling.patient')
+    doctor_schedulers = db.relationship('Scheduling', lazy='dynamic', foreign_keys='Scheduling.doctor')
 
     @property
     def serialized(self):

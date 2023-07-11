@@ -4,13 +4,13 @@ from datetime import datetime
 from uuid import uuid4
 
 
-def create_id():
+def generate_id():
     return str(uuid4())
 
 
 class DefaultModel(object):
 
-    id = db.Column(db.String(50), primary_key=True, default=create_id())
+    id = db.Column(db.String(50), primary_key=True, default=generate_id)
     created_at = db.Column(db.DateTime, default=datetime.now(), index=True)
 
     def save(self):

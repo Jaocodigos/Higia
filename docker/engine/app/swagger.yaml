@@ -7,6 +7,122 @@ servers:
   - url: /api
 
 paths:
+  /exams:
+    get:
+      tags:
+        - Exams
+      summary: returns a list of scheduled exams.
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+
+    post:
+      tags:
+        - Exams
+      summary: Schedule a new exam.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                patient_identifier:
+                  type: string
+                  description: Patient identifier(CPF).
+                exam_type:
+                  type: string
+                  description: Exam name.
+                exam_local:
+                  type: string
+                  description: Exam local.
+                exam_date:
+                  type: string
+                  description: Exam date(dd/mm/yyyy).
+                validity:
+                  type: string
+                  description: Exam validity(dd/mm/yyyy).
+      responses:
+        '201':
+          $ref: '#/components/responses/ResponseCreated'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+  /exams/{exam_id}:
+    put:
+      tags:
+        - Exams
+      summary: Edit a scheduled exam data.
+      parameters:
+        - in: path
+          name: exam_id
+          description: Exam Id.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                patient_identifier:
+                  type: string
+                  description: Patient identifier(CPF).
+                exam_type:
+                  type: string
+                  description: Exam name.
+                exam_local:
+                  type: string
+                  description: Exam local.
+                exam_date:
+                  type: string
+                  description: Exam date(dd/mm/yyyy).
+                validity:
+                  type: string
+                  description: Exam validity(dd/mm/yyyy).
+                result:
+                  type: string
+                  description: Exam result.
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+    delete:
+      tags:
+        - Exams
+      summary: Delete a scheduled exam.
+      parameters:
+        - in: path
+          name: role_name
+          description: Name of created role.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
   /roles:
     get:
       tags:
