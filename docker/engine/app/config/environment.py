@@ -8,6 +8,7 @@ class Config(object):
     def __init__(self):
         self.TESTING = False
         self.SQLALCHEMY_TRACK_MODIFICATIONS = False
+        self.SESSION_PERMANENT = False
         self.SECRET_KEY = environ['SECRET_KEY']
         self.ADMIN_USERNAME = environ['ADMIN_USERNAME']
         self.ADMIN_PASSWORD = environ['ADMIN_PASSWORD']
