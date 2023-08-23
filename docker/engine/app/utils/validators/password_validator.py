@@ -1,4 +1,3 @@
-from engine.app.models.intern.settings import Settings
 from engine.app.config.default import set_default_db_config
 import logging
 
@@ -7,8 +6,7 @@ log = logging.getLogger("Higia." + __name__)
 
 def validate_password_policy(password):
     log.debug(f"Validating password {password}")
-    set_default_db_config()
-    settings = Settings.query.first()
+    settings = set_default_db_config()
     if len(password) > settings.password_length:
         log.error(f"The password must contain at less {settings.password_length} chars.")
         return False
