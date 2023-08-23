@@ -1,5 +1,5 @@
 from engine.app.resources.api import api
-from engine.app.services.authentication import api_auth
+from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.settings import Settings
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
@@ -11,7 +11,7 @@ import logging
 log = logging.getLogger("Higia." + __name__)
 
 
-@api.route('/settings', methods=['GET'])
+@api.get('/settings')
 @api_auth(roles=['administrator', 'users'])
 def get_config():
     log.info('Retrieving system configs.')
@@ -20,7 +20,7 @@ def get_config():
     return jsonify({'Actual System Configuration': settings.serialized}), 200
 
 
-@api.route('/settings', methods=['POST'])
+@api.post('/settings')
 @api_auth(roles=['administrator'])
 def new_config():
     log.info('Providing a new configuration to system.')
@@ -31,7 +31,7 @@ def new_config():
     return user, 201
 
 
-@api.route('/testing', methods=['GET'])
+@api.get('/testing')
 @api_auth(roles=['administrator'])
 def testing_mode():
     log.info('Creating all models to start testing.')

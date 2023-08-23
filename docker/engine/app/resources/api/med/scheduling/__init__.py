@@ -1,16 +1,15 @@
 from engine.app.resources.api import api
-from engine.app.services.authentication import api_auth
+from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.scheduling import Scheduling
 from flask import request, abort, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
-from engine.app.utils.converters.convert_user_datas import convert_identifier
-from engine.app.schemas.users.user_schema import UserSchema, UserUpdateSchema
+from engine.app.schemas.users.user_schema import UserUpdateSchema
 import logging
 
 log = logging.getLogger("Higia." + __name__)
 
 
-@api.route('/schedules', methods=['GET'])
+@api.get('/schedules')
 @api_auth(roles=['administrator'])
 def list_schedules():
     log.info('Retrieving doctor schedulers.')
@@ -19,7 +18,7 @@ def list_schedules():
     return jsonify({'Users': [x.serialized for x in schedulers]}), 200
 
 
-@api.route('/schedules/<string:identifier>', methods=['PUT'])
+@api.put('/schedules/<string:identifier>')
 @api_auth(roles=['administrator'])
 def edit_scheduling(identifier):
     log.info(f'Altering scheduling data for user with identifier: {identifier}.')
@@ -30,7 +29,7 @@ def edit_scheduling(identifier):
     return updated_user, 200
 
 
-@api.route('/schedules/<string:identifier>', methods=['DELETE'])
+@api.delete('/schedules/<string:identifier>')
 @api_auth(roles=['administrator'])
 def exclude_scheduling(identifier):
     log.info(f'Deleting scheduling {identifier}.')

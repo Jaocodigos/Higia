@@ -1,7 +1,7 @@
 from engine.app.resources.api import api
-from engine.app.services.authentication import api_auth
+from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.roles import Roles
-from flask import request, abort, jsonify
+from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.schemas.roles.roles_schema import RoleSchema
 import logging
@@ -9,7 +9,7 @@ import logging
 log = logging.getLogger("Higia." + __name__)
 
 
-@api.route('/roles', methods=['GET'])
+@api.get('/roles')
 @api_auth(roles=['administrator'])
 def list_roles():
     log.info('Retrieving roles.')
@@ -18,7 +18,7 @@ def list_roles():
     return jsonify({'Roles': [x.serialized for x in roles]}), 200
 
 
-@api.route('/roles', methods=['POST'])
+@api.post('/roles')
 @api_auth(roles=['administrator'])
 def add_role():
     log.info('Creating a new role.')
@@ -28,7 +28,7 @@ def add_role():
     return jsonify({'RoleID': role['id']}), 201
 
 
-@api.route('/roles/<string:role_name>', methods=['DELETE'])
+@api.delete('/roles/<string:role_name>')
 @api_auth(roles=['administrator'])
 def delete_role(role_name):
     log.info(f'Deleting role {role_name}.')

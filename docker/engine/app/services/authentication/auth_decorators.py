@@ -41,3 +41,30 @@ def api_auth(roles=[]):
             abort(401, "Unauthorized.")
         return wrap
     return decorator
+
+
+def view_auth(roles=[]):
+    def decorator(func):
+        @wraps(func)
+        def wrap(*args, **kwargs):
+            auth = request.authorization
+            if auth and hasattr(auth, 'username') and hasattr(auth, 'password'):
+                if admin_username == auth.username and admin_password == auth.password:
+                    return func(*args, **kwargs)
+                else:
+                    user_identifier = convert_identifier(request.args.get('username'))
+                    passwd = request.headers.get('password')
+                    user = Users.query.filter_by(identifier=user_identifier).first()
+                    if user and user.check_password(passwd):
+                        if roles and user.check_roles(roles):
+                            session['user_id'] = user.id
+                            return func(*args, **kwargs)
+                        if not roles:
+                            return func(*args, **kwargs)
+                        abort(401, "Unauthorized.")
+            if 'client-id' in request.headers and 'client' in roles:
+                ##  TODO authentication for client with api-key
+                abort(401, "Unauthorized.")
+            abort(401, "Unauthorized.")
+        return wrap
+    return decorator

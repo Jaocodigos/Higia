@@ -1,10 +1,8 @@
-from setuptools._vendor.more_itertools import exactly_n
-
 from engine.app.resources.api import api
-from engine.app.services.authentication import api_auth
+from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.exams import Exams
 from engine.app.models.intern.users import Users
-from flask import request, abort, jsonify, session
+from flask import request, jsonify, session
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.utils.converters.convert_user_datas import convert_identifier
 from engine.app.schemas.exams.exam_schema import ExamSchema, ExamUpdateSchema
@@ -13,7 +11,7 @@ import logging
 log = logging.getLogger("Higia." + __name__)
 
 
-@api.route('/exams', methods=['GET'])
+@api.get('/exams')
 @api_auth(roles=['doctor'])
 def list_exams():
     log.info('Retrieving exams registered by doctor.')
@@ -23,7 +21,7 @@ def list_exams():
     return jsonify({'Exams': [x.serialized for x in doctor.exams]}), 200
 
 
-@api.route('/exams', methods=['POST'])
+@api.post('/exams')
 @api_auth(roles=['doctor'])
 def add_exam():
     log.info('Creating a new user.')
@@ -33,7 +31,7 @@ def add_exam():
     return exam, 201
 
 
-@api.route('/exams/<string:id>', methods=['PUT'])
+@api.put('/exams/<string:id>')
 @api_auth(roles=['doctor'])
 def edit_exam(exam_id):
     log.info(f'Altering exam: {exam_id}.')
@@ -44,7 +42,7 @@ def edit_exam(exam_id):
     return updated_exam, 200
 
 
-@api.route('/exams/<string:id>', methods=['DELETE'])
+@api.delete('/exams/<string:id>')
 @api_auth(roles=['doctor'])
 def exclude_exam(exam_id):
     log.info(f'Deleting exam {exam_id}.')
