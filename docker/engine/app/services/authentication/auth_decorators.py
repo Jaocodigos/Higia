@@ -1,69 +1,26 @@
 from functools import wraps
-from flask import request, abort, session
-from os import environ
-from engine.app.models.intern.users import Users
+from flask import request, abort
 from engine.app.utils.converters.convert_user_datas import convert_identifier
+from engine.app.services.authentication.auth_operations import validate_login, validate_admin
 
 
-try:
-    admin_username = environ['ADMIN_USERNAME']
-except KeyError:
-    exit("Missing ADMIN_USERNAME environment variable.")
-
-try:
-    admin_password = environ['ADMIN_PASSWORD']
-except KeyError:
-    exit("Missing ADMIN_PASSWORD environment variable.")
-
-
-def api_auth(roles=[]):
+def api_auth(roles: list):
     def decorator(func):
         @wraps(func)
         def wrap(*args, **kwargs):
             auth = request.authorization
             if auth and hasattr(auth, 'username') and hasattr(auth, 'password'):
-                if admin_username == auth.username and admin_password == auth.password:
+                if validate_admin(auth):
                     return func(*args, **kwargs)
                 else:
-                    user_identifier = convert_identifier(request.args.get('username'))
-                    passwd = request.headers.get('password')
-                    user = Users.query.filter_by(identifier=user_identifier).first()
-                    if user and user.check_password(passwd):
-                        if roles and user.check_roles(roles):
-                            session['user_id'] = user.id
-                            return func(*args, **kwargs)
-                        if not roles:
-                            return func(*args, **kwargs)
-                        abort(401, "Unauthorized.")
+                    validated, user_id = validate_login(identifier=convert_identifier(auth.username),
+                                                        password=auth.password,
+                                                        roles=roles)
+                    if validated:
+                        return func(*args, **kwargs)
+                    abort(401, "Unauthorized.")
             if 'client-id' in request.headers and 'client' in roles:
-                ##  TODO authentication for client with api-key
-                abort(401, "Unauthorized.")
-            abort(401, "Unauthorized.")
-        return wrap
-    return decorator
-
-
-def view_auth(roles=[]):
-    def decorator(func):
-        @wraps(func)
-        def wrap(*args, **kwargs):
-            auth = request.authorization
-            if auth and hasattr(auth, 'username') and hasattr(auth, 'password'):
-                if admin_username == auth.username and admin_password == auth.password:
-                    return func(*args, **kwargs)
-                else:
-                    user_identifier = convert_identifier(request.args.get('username'))
-                    passwd = request.headers.get('password')
-                    user = Users.query.filter_by(identifier=user_identifier).first()
-                    if user and user.check_password(passwd):
-                        if roles and user.check_roles(roles):
-                            session['user_id'] = user.id
-                            return func(*args, **kwargs)
-                        if not roles:
-                            return func(*args, **kwargs)
-                        abort(401, "Unauthorized.")
-            if 'client-id' in request.headers and 'client' in roles:
-                ##  TODO authentication for client with api-key
+                # TODO authentication for client with api-key
                 abort(401, "Unauthorized.")
             abort(401, "Unauthorized.")
         return wrap
