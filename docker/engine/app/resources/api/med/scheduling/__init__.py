@@ -1,7 +1,7 @@
 from engine.app.resources.api import api
 from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.scheduling import Scheduling
-from flask import request, abort, jsonify
+from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.schemas.users.user_schema import UserUpdateSchema
 import logging

@@ -20,10 +20,18 @@ class Exams(DefaultModel, db.Model):
     def serialized(self):
         return dict(
             patient=self.patient,
-            requested_by=self.doctor,
+            requested_by=self.doctor_name,
             exam_type=self.exam_type,
             local=self.exam_local,
-            date=self.exam_date,
+            date=self.exam_date_formatted,
             result=self.result,
-            validity=self.validity
+            validity=self.validity_date_formatted
         )
+
+    @property
+    def exam_date_formatted(self):
+        return self.exam_date.strftime("%d/%m/%Y, %H:%M:%S")
+
+    @property
+    def validity_date_formatted(self):
+        return self.exam_date.strftime("%d/%m/%Y, %H:%M:%S")

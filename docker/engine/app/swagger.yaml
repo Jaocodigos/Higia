@@ -83,10 +83,12 @@ paths:
                   description: Exam local.
                 exam_date:
                   type: string
-                  description: Exam date(dd/mm/yyyy).
+                  format: date
+                  description: Exam date(yyyy-mm-dd).
                 validity:
                   type: string
-                  description: Exam validity(dd/mm/yyyy).
+                  format: date
+                  description: Exam validity(yyyy-mm-dd).
                 result:
                   type: string
                   description: Exam result.

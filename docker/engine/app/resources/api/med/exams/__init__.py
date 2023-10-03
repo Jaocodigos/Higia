@@ -11,20 +11,26 @@ import logging
 log = logging.getLogger("Higia" + __name__)
 
 
-@api.get('/exams/<string:identifier>')
+@api.get('/exams')
 @api_auth(roles=['doctor'])
-def list_exams(identifier):
-    log.info('Retrieving exams registered by doctor.')
-    doctor = Users.query.filter_by(identifier=identifier).first_or_404()
-    log.debug(f'Returning exams: {doctor.exams}')
-    return jsonify({'Exams': [x.serialized for x in doctor.exams]}), 200
+def list_exams(doctor):
+    log.info(f'Retrieving exams registered by doctor {doctor.username}, identifier {doctor.identifier}.')
+    doctor = Users.query.filter_by(identifier=doctor.identifier).first_or_404()
+    log.debug(f'Total exams: {len(doctor.doctor_exams)}')
+    return jsonify({'Exams': [x.serialized for x in doctor.doctor_exams]}), 200
 
 
 @api.post('/exams')
 @api_auth(roles=['doctor'])
-def add_exam():
-    log.info('Creating a new user.')
+def add_exam(doctor):
+    log.info(f'Creating a new user. Requested by doctor {doctor.username}')
     data = request.json
+    patient = Users.query.filter_by(identifier=data.get('patient_identifier')).first_or_404()
+    doctor = Users.query.filter_by(identifier=doctor.identifier).first_or_404()
+    data['patient'] = patient.id
+    data['patient_name'] = patient.user_name
+    data['doctor'] = doctor.id
+    data['doctor_name'] = doctor.user_name
     exam = convert_json_to_model(Exams(), ExamSchema(), data, converters={'patient_identifier': convert_identifier})
     log.debug(f'Exam created: {exam}')
     return exam, 201
@@ -32,7 +38,7 @@ def add_exam():
 
 @api.put('/exams/<string:id>')
 @api_auth(roles=['doctor'])
-def edit_exam(exam_id):
+def edit_exam(doctor, exam_id):
     log.info(f'Altering exam: {exam_id}.')
     exam = Exams.query.filter_by(id=exam_id).first_or_404()
     data = request.json
@@ -44,7 +50,7 @@ def edit_exam(exam_id):
 
 @api.delete('/exams/<string:id>')
 @api_auth(roles=['doctor'])
-def exclude_exam(exam_id):
+def exclude_exam(doctor, exam_id):
     log.info(f'Deleting exam {exam_id}.')
     exam = Exams.query.filter_by(id=exam_id).first_or_404()
     exam.delete()
