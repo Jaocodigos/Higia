@@ -31,7 +31,7 @@ def validate_login(**kwargs):
     user = Users.query.filter_by(identifier=kwargs.get('identifier')).first()
     if not user:
         log.debug(f"User with identifier: {kwargs.get('identifier')} not found. Aborting operation.")
-        return False
+        return False, None
     if not user.check_authorization(kwargs.get('password')):
         log.debug(f"Invalid password. Verifying user login tries.")
         if user.login_tries >= settings.lockout_tries:
@@ -39,12 +39,12 @@ def validate_login(**kwargs):
             user.locked = True
             user.blocked_until = datetime.now() + timedelta(hours=settings.lockout_time)
             user.save()
-        return False
+        return False, None
     if kwargs.get('roles') and not user.check_roles(kwargs.get('roles')):
         log.debug("The role doesn't match with requested.")
-        return False
+        return False, None
     log.debug("Login validated! Resetting login tries.")
     user.login_tries = 0
     user.save()
-    return True
-
+    user_data = {'username': f'{user.user_name}', 'identifier': user.identifier}
+    return True, user_data
