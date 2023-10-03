@@ -24,7 +24,7 @@ class DevConfig(Config):
         self.SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{self.MYSQL_USER}:' \
                                        f'{self.MYSQL_PASSWORD}@{self.MYSQL_HOST}/' \
                                        f'{self.MYSQL_DATABASE}'
-        self.SQLALCHEMY_ECHO = True
+        self.SQLALCHEMY_ECHO = False
 
 
 class TestConfig(Config):
