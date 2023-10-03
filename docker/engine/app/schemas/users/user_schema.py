@@ -28,10 +28,9 @@ class UserSchema(Schema):
         if Users.query.filter_by(identifier=data.get('identifier')).first():
             log.error("This identifier is already in use.")
             raise ValidationError("This identifier is already in use.")
-        if len(data.get('identifier')) > 11 or not data.get('identifier').isdigit():
-            if not validate_identifier(data.get('identifier')):
-                log.error("The identifier format is incorrect.")
-                raise ValidationError("Invalid identifier, the correct format must contain 11 numbers.")
+        if not data.get('identifier') or not validate_identifier(data.get('identifier')):
+            log.error("The identifier format is missing or is incorrect.")
+            raise ValidationError("Invalid identifier, the correct format must contain 11 numbers.")
         if '.com' not in data.get('email') or '@' not in data.get('email'):
             log.error("Invalid email.")
             raise ValidationError("Invalid email.")
@@ -64,7 +63,7 @@ class UserUpdateSchema(Schema):
         if data.get('identifier') and Users.query.filter_by(identifier=data.get('identifier')).first():
             log.error("This identifier is already in use.")
             raise ValidationError("This identifier is already in use.")
-        if data.get('identifier') and (len(data.get('identifier')) > 11 or not data.get('identifier').isdigit()):
+        if data.get('identifier') and not validate_identifier(data.get('identifier')):
             log.error("The identifier format is incorrect.")
             raise ValidationError("Invalid identifier format, the correct format must contain 11 chars.")
         if data.get('email') and '.com' not in data.get('email') or data.get('email') and '@' not in data.get('email'):

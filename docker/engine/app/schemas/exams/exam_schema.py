@@ -16,19 +16,19 @@ class ExamSchema(Schema):
     patient_identifier = Types.String(required=True)
     exam_type = Types.String(required=True)
     exam_local = Types.String(required=True)
-    exam_date = Types.String(required=True)
-    validity = Types.String(required=True)
+    exam_date = Types.Date(required=True)
+    patient = Types.String(required=True)
+    patient_name = Types.String(required=True)
+    doctor = Types.String(required=True)
+    doctor_name = Types.String(required=True)
+    validity = Types.Date(required=True)
     result = Types.String()
 
     @validates_schema
     def validate_data(self, data, **kwargs):
-        if Users.query.filter_by(identifier=data.get('identifier')).first():
-            log.error("This identifier is already in use.")
-            raise ValidationError("This identifier is already in use.")
-        if len(data.get('identifier')) > 11 or not data.get('identifier').isdigit():
-            if not validate_identifier(data.get('identifier')):
-                log.error("The identifier format is incorrect.")
-                raise ValidationError("Invalid identifier, the correct format must contain 11 numbers.")
+        if not data.get('patient_identifier') or not validate_identifier(data.get('patient_identifier')):
+            log.error("The identifier format is incorrect.")
+            raise ValidationError("Invalid identifier, the correct format must contain 11 numbers.")
 
 
 class ExamUpdateSchema(Schema):
@@ -44,10 +44,7 @@ class ExamUpdateSchema(Schema):
 
     @validates_schema
     def validate_data(self, data, **kwargs):
-        if data.get('identifier') and Users.query.filter_by(identifier=data.get('identifier')).first():
-            log.error("This identifier is already in use.")
-            raise ValidationError("This identifier is already in use.")
-        if data.get('identifier') and (len(data.get('identifier')) > 11 or not data.get('identifier').isdigit()):
+        if not data.get('patient_identifier') or validate_identifier(data.get('patient_identifier')):
             log.error("The identifier format is incorrect.")
             raise ValidationError("Invalid identifier format, the correct format must contain 11 chars.")
 
