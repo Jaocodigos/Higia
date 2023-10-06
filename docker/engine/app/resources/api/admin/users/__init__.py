@@ -16,7 +16,7 @@ def list_users():
     log.info('Retrieving users.')
     users = Users.query.all()
     log.debug(f'Returning users: {users}')
-    return jsonify({'Users': [x.serialized for x in users]}), 200
+    return jsonify({'Users': [x.serialized(x.protected_fields) for x in users]}), 200
 
 
 @api.post('/users')

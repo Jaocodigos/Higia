@@ -8,10 +8,5 @@ class Roles(DefaultModel, db.Model):
     role_name = db.Column(db.String(50), unique=True, nullable=False)
 
     @property
-    def serialized(self):
-        return dict(
-            id=self.id,
-            role_name=self.role_name,
-            created_at=self.created_at
-        )
-
+    def protected_fields(self):
+        return []

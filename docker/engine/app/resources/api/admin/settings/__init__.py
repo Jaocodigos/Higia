@@ -17,7 +17,7 @@ def get_config():
     log.info('Retrieving system configs.')
     settings = Settings.query.first_or_404()
     log.debug(f'Returning config: {settings}')
-    return jsonify({'Actual System Configuration': settings.serialized}), 200
+    return jsonify({'Actual System Configuration': settings.serialized()}), 200
 
 
 @api.post('/settings')
@@ -26,9 +26,9 @@ def new_config():
     log.info('Providing a new configuration to system.')
     data = request.json
     settings = Settings.query.first_or_404()
-    user = convert_json_to_model(settings, SettingsSchema(), data)
+    new_settings = convert_json_to_model(settings, SettingsSchema(), data)
     log.debug(f'Settings updated!')
-    return user, 201
+    return new_settings, 201
 
 
 @api.get('/testing')

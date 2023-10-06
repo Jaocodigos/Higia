@@ -15,7 +15,7 @@ def list_roles():
     log.info('Retrieving roles.')
     roles = Roles.query.all()
     log.debug(f'Returning roles: {roles}')
-    return jsonify({'Roles': [x.serialized for x in roles]}), 200
+    return jsonify({'Roles': [x.serialized() for x in roles]}), 200
 
 
 @api.post('/roles')

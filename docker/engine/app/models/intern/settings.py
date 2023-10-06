@@ -17,17 +17,5 @@ class Settings(DefaultModel, db.Model):
     lockout_time = db.Column(db.Integer(), nullable=False, default=1)
 
     @property
-    def serialized(self):
-        return dict(
-            password_length=self.password_length,
-            password_numbers=self.password_numbers,
-            password_letters=self.password_letters,
-            password_high_chars=self.password_caps,
-            password_lower_chars=self.password_lower,
-            password_special=self.password_special,
-            log_level=self.log_level,
-            lockout_mode=self.lockout,
-            lockout_tries=self.lockout_tries,
-            lockout_time=self.lockout_time
-        )
-
+    def protected_fields(self):
+        return []

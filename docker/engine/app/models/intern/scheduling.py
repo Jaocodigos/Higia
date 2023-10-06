@@ -18,14 +18,6 @@ class Scheduling(DefaultModel, db.Model):
     doctor_name = db.Column(db.String(100), nullable=False)
 
     @property
-    def serialized(self):
-        return dict(
-            patient=self.patient,
-            speicialty=self.specialty,
-            local=self.patient,
-            date=self.appointment_day,
-            description=self.description,
-            details=self.details,
-            return_on=self.return_date
-        )
+    def protected_fields(self):
+        return ['doctor', 'patient']
 

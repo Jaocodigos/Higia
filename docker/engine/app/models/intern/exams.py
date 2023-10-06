@@ -17,16 +17,8 @@ class Exams(DefaultModel, db.Model):
     doctor_name = db.Column(db.String(100), nullable=False)
 
     @property
-    def serialized(self):
-        return dict(
-            patient=self.patient,
-            requested_by=self.doctor_name,
-            exam_type=self.exam_type,
-            local=self.exam_local,
-            date=self.exam_date_formatted,
-            result=self.result,
-            validity=self.validity_date_formatted
-        )
+    def protected_fields(self):
+        return ['doctor', 'patient']
 
     @property
     def exam_date_formatted(self):

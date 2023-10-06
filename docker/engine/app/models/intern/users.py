@@ -26,16 +26,9 @@ class Users(DefaultModel, db.Model):
     doctor_schedulers = db.relationship('Scheduling', lazy='select', foreign_keys='Scheduling.doctor')
 
     @property
-    def serialized(self):
-        return dict(
-
-            name=f"{self.user_name}",
-            cpf=self.identifier,
-            email=self.email,
-            phone=self.phone,
-            is_locked=self.locked,
-            roles=self.roles
-        )
+    def protected_fields(self):
+        return ['password_hash', 'cep', 'last_login', 'last_password_change', 'patient_exams', 'login_tries'
+                'doctor_exams', 'patient_schedulers', 'doctor_schedulers', 'blocked_until']
 
     @property
     def password(self):

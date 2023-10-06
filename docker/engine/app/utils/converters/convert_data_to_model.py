@@ -22,9 +22,10 @@ def convert_json_to_model(model: Model, schema: Schema, data: dict, converters={
             if hasattr(model, x):
                 log.debug(f"Inserting on {x} the value {data[x]}")
                 model.__setattr__(x, data[x])
-    except (KeyError, ValueError):
+    except (KeyError, ValueError) as e:
+        log.error(f"Error inserting data on model: {e}")
         abort(400, "Invalid data, try again.")
 
     log.debug("Schema load completed! Now saving on DB.")
     model.save()
-    return model.serialized
+    return model.serialized(model.protected_fields)
