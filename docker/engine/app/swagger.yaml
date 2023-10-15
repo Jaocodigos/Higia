@@ -84,11 +84,11 @@ paths:
                 exam_date:
                   type: string
                   format: date
-                  description: Exam date(yyyy-mm-dd).
+                  description: Exam date(dd/mm/yyyy).
                 validity:
                   type: string
                   format: date
-                  description: Exam validity(yyyy-mm-dd).
+                  description: Exam validity(dd/mm/yyyy).
                 result:
                   type: string
                   description: Exam result.
@@ -109,8 +109,8 @@ paths:
       summary: Delete a scheduled exam.
       parameters:
         - in: path
-          name: role_name
-          description: Name of created role.
+          name: exam_id
+          description: Exam Id.
           required: true
           schema:
             type: string
@@ -406,7 +406,7 @@ components:
 
   schemas:
     Success:
-      description: Response Message with Success case fields.
+      description: Response Message with success case fields.
       type: object
     Error:
       description: Response Message with error fields.
