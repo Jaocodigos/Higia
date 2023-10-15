@@ -21,13 +21,20 @@ class DefaultModel(object):
         db.session.delete(self)
         db.session.commit()
 
+    @property
+    def default_hided_keys(self):
+        return ['_sa_instance_state', 'created_at']
+
     def serialized(self, protected_fields=[]):
         serialize_data = dict()
-        for k in self.__dict__.keys():
-            if k in protected_fields:
-                continue
-            if isinstance(self.__dict__.get(k), datetime):
-                serialize_data[k] = self.__dict__.get(k).strftime("%Y-%m-%d")
-            else:
-                serialize_data[k] = self.__dict__.get(k)
+        if self.id:
+            for k in self.__dict__.keys():
+                if k in protected_fields or k in self.default_hided_keys:
+                    continue
+                if isinstance(self.__dict__.get(k), datetime):
+                    serialize_data[k] = self.__dict__.get(k).strftime("%Y-%m-%d")
+                else:
+                    serialize_data[k] = self.__dict__.get(k)
+        else:
+            return {}
         return serialize_data
