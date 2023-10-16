@@ -15,7 +15,7 @@ def list_schedules():
     log.info('Retrieving doctor schedulers.')
     schedulers = Scheduling.query.all()
     log.debug(f'Returning schedulers: {schedulers}')
-    return jsonify({'Users': [x.serialized for x in schedulers]}), 200
+    return jsonify({'Users': [x.serialized(x.protected_fields) for x in schedulers]}), 200
 
 
 @api.put('/schedules/<string:identifier>')
