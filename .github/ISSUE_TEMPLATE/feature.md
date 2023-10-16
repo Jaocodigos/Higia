@@ -1,5 +1,5 @@
 ---
-name: Feature request
+name: Feature
 about: Request a new feature
 title: '[FEATURE]: '
 labels: Feature
