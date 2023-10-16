@@ -184,6 +184,89 @@ paths:
           $ref: '#/components/responses/ResponseInternalServerError'
       security:
         - basic: [ ]
+  /schedules:
+    get:
+      tags:
+        - Schedules
+      summary: returns a list of scheduled times.
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+
+    /schedules/{schedule_id}:
+      put:
+        tags:
+          - Schedules
+        summary: Edit a scheduled time data.
+        parameters:
+          - in: path
+            name: schedule_id
+            description: Schedule Id.
+            required: true
+            schema:
+              type: string
+        requestBody:
+          content:
+            application/json:
+              schema:
+                properties:
+                  patient_identifier:
+                    type: string
+                    description: Patient identifier(CPF).
+                  exam_type:
+                    type: string
+                    description: Exam name.
+                  exam_local:
+                    type: string
+                    description: Exam local.
+                  exam_date:
+                    type: string
+                    format: date
+                    description: Exam date(dd/mm/yyyy).
+                  validity:
+                    type: string
+                    format: date
+                    description: Exam validity(dd/mm/yyyy).
+                  result:
+                    type: string
+                    description: Exam result.
+        responses:
+          '200':
+            $ref: '#/components/responses/ResponseOK'
+          '401':
+            $ref: '#/components/responses/ResponseUnauthorized'
+          '404':
+            $ref: '#/components/responses/ResponseNotFound'
+          '500':
+            $ref: '#/components/responses/ResponseInternalServerError'
+        security:
+          - basic: [ ]
+      delete:
+        tags:
+          - Schedules
+        summary: Delete a scheduled time.
+        parameters:
+          - in: path
+            name: exam_id
+            description: Exam Id.
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            $ref: '#/components/responses/ResponseOK'
+          '401':
+            $ref: '#/components/responses/ResponseUnauthorized'
+          '404':
+            $ref: '#/components/responses/ResponseNotFound'
+          '500':
+            $ref: '#/components/responses/ResponseInternalServerError'
+        security:
+          - basic: [ ]
 
   /settings:
     get:
