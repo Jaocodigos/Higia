@@ -13,8 +13,6 @@ class ScheduleSchema(Schema):
     class Meta:
         model = Scheduling
 
-    patient_identifier = Types.String(required=True)
-    patient_name = Types.String(required=True)
     local = Types.String(required=True)
     appointment_day = Types.String(required=True)
     return_date = Types.String()
