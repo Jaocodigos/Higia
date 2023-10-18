@@ -125,6 +125,89 @@ paths:
           $ref: '#/components/responses/ResponseInternalServerError'
       security:
         - basic: [ ]
+  /patient/exams:
+    get:
+      tags:
+        - Patient Services
+      summary: returns a list with patient's exams.
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+  /patient/schedules:
+    get:
+      tags:
+        - Patient Services
+      summary: returns a list with patient schedules.
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+  /patient/schedules/{doctor_id}:
+    post:
+      tags:
+        - Patient Services
+      summary: Mark a new schedule.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                patient_identifier:
+                  type: string
+                  description: Patient identifier(CPF).
+                patient_name:
+                  type: string
+                  description: Patient full name.
+                local:
+                  type: string
+                  description: Schedule local.
+                specialty:
+                  type: string
+                  description: Doctor specialty.
+                appointment_day:
+                  type: string
+                  description: Schedule date(dd/mm/yyyy H:M:S).
+      responses:
+        '201':
+          $ref: '#/components/responses/ResponseCreated'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+  /patient/schedules/{schedule_id}:
+    delete:
+      tags:
+        - Patient Services
+      summary: Markoff a schedule.
+      parameters:
+        - in: path
+          name: role_name
+          description: Name of created role.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
   /roles:
     get:
       tags:
