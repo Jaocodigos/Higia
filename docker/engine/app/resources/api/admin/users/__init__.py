@@ -3,7 +3,7 @@ from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.users import Users
 from flask import request, abort, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
-from engine.app.utils.converters.convert_user_datas import convert_identifier
+from engine.app.utils.converters.convert_user_datas import convert_identifier, convert_role_to_model
 from engine.app.schemas.users.user_schema import UserSchema, UserUpdateSchema
 import logging
 
@@ -24,8 +24,9 @@ def list_users():
 def add_user():
     log.info('Creating a new user.')
     data = request.json
-    user = convert_json_to_model(Users(), UserSchema(), data, converters={'identifier': convert_identifier})
-    log.debug(f'User created: {user["name"]}')
+    user = convert_json_to_model(Users(), UserSchema(), data, converters={'identifier': convert_identifier,
+                                                                          'roles': convert_role_to_model})
+    log.debug(f'User created: {user}')
     return user, 201
 
 
@@ -35,7 +36,8 @@ def edit_user(identifier):
     log.info(f'Altering data for user with identifier: {identifier}.')
     user = Users.query.filter_by(identifier=identifier).first_or_404()
     data = request.json
-    updated_user = convert_json_to_model(user, UserUpdateSchema(), data)
+    updated_user = convert_json_to_model(user, UserUpdateSchema(), data, converters={'identifier': convert_identifier,
+                                                                                     'roles': convert_role_to_model})
     log.debug(f'User data altered!')
     return updated_user, 200
 
