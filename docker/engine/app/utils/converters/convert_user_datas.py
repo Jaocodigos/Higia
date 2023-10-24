@@ -1,4 +1,5 @@
 import re
+from engine.app.models.intern.roles import Roles
 
 
 def convert_identifier(identifier):
@@ -10,3 +11,12 @@ def convert_identifier(identifier):
     elif len(identifier) == 11 and identifier.isdigit():
         return identifier
     return None
+
+
+def convert_role_to_model(roles: list):
+    model_list = list()
+    for role_name in roles:
+        role = Roles.query.filter_by(role_name=role_name).first()
+        if role:
+            model_list.append(role)
+    return model_list

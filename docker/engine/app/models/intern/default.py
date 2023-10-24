@@ -32,7 +32,7 @@ class DefaultModel(object):
                 if k in protected_fields or k in self.default_hided_keys:
                     continue
                 if isinstance(self.__dict__.get(k), datetime):
-                    serialize_data[k] = self.__dict__.get(k).strftime("%Y-%m-%d")
+                    serialize_data[k] = self.__dict__.get(k).strftime("%d-%m-%Y")
                 else:
                     serialize_data[k] = self.__dict__.get(k)
         else:

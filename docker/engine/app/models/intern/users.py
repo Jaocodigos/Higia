@@ -1,6 +1,7 @@
 from engine.app.models import db
 from .default import DefaultModel
 from datetime import datetime
+from engine.app.models.many_to_many import users_and_roles
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -9,8 +10,7 @@ class Users(DefaultModel, db.Model):
 
     identifier = db.Column(db.String(11), unique=True, nullable=False, index=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
+    full_name = db.Column(db.String(100), nullable=False)
     password_hash = db.Column(db.String(500))
     phone = db.Column(db.String(13), unique=True)
     cep = db.Column(db.String(255))
@@ -19,7 +19,7 @@ class Users(DefaultModel, db.Model):
     locked = db.Column(db.Boolean, default=False)
     blocked_until = db.Column(db.DateTime)
     login_tries = db.Column(db.Integer, default=0)
-    roles = db.Column(db.Text(20000), default='patient')
+    roles = db.relationship("Roles", secondary=users_and_roles, back_populates="users", lazy="select")
     patient_exams = db.relationship('Exams', lazy='select', foreign_keys='Exams.patient')
     doctor_exams = db.relationship('Exams', lazy='select', foreign_keys='Exams.doctor')
     patient_schedulers = db.relationship('Scheduling', lazy='select', foreign_keys='Scheduling.patient')
@@ -44,10 +44,8 @@ class Users(DefaultModel, db.Model):
         return False
 
     def check_roles(self, roles: list):
-        if len(roles) > 0 and any(x in self.roles for x in roles):
-            return True
+        if len(roles) > 0:
+            for role in self.roles:
+                if any(x == role.role_name for x in roles):
+                    return True
         return False
-
-    @property
-    def user_name(self):
-        return f"{self.first_name} {self.last_name}"

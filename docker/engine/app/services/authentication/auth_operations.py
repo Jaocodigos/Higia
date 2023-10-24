@@ -46,5 +46,5 @@ def validate_login(**kwargs):
     log.debug("Login validated! Resetting login tries.")
     user.login_tries = 0
     user.save()
-    user_data = {'username': f'{user.user_name}', 'identifier': user.identifier}
+    user_data = {'username': f'{user.full_name}', 'identifier': user.identifier}
     return True, user_data

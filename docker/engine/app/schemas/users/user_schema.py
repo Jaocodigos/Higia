@@ -16,12 +16,11 @@ class UserSchema(Schema):
 
     identifier = Types.String(required=True)
     email = Types.String(required=True)
-    first_name = Types.String(required=True)
-    last_name = Types.String(required=True)
+    full_name = Types.String(required=True)
     password = Types.String(required=True)
     phone = Types.String()
     cep = Types.String()
-    roles = Types.String()
+    roles = Types.List(Types.String())
 
     @validates_schema
     def validate_data(self, data, **kwargs):
@@ -51,12 +50,11 @@ class UserUpdateSchema(Schema):
 
     identifier = Types.String()
     email = Types.String()
-    first_name = Types.String()
-    last_name = Types.String()
+    full_name = Types.String()
     password = Types.String()
     phone = Types.String()
     cep = Types.String()
-    roles = Types.String()
+    roles = Types.List(Types.String())
 
     @validates_schema
     def validate_data(self, data, **kwargs):
