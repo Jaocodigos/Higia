@@ -1,6 +1,7 @@
 from flask_marshmallow import Schema
 from marshmallow import validates_schema, ValidationError
 from engine.app.models.intern.scheduling import Scheduling
+from engine.app.models.intern.users import Users
 from engine.app.schemas.types import Types
 from engine.app.utils.validators.identifier_validator import validate_identifier
 from engine.app.utils.validators.date_validator import validate_date
@@ -14,6 +15,11 @@ class ScheduleSchema(Schema):
         model = Scheduling
 
     local = Types.String(required=True)
+    patient = Types.String(required=True)
+    patient_name = Types.String(required=True)
+    patient_identifier = Types.String(required=True)
+    doctor = Types.String(required=True)
+    doctor_name = Types.String(required=True)
     appointment_day = Types.String(required=True)
     return_date = Types.String()
     description = Types.String()
@@ -22,7 +28,7 @@ class ScheduleSchema(Schema):
 
     @validates_schema
     def validate_data(self, data, **kwargs):
-        if data.get('patient_identifier') and validate_identifier(data.get('patient_identifier')):
+        if data.get('patient_identifier') and not validate_identifier(data.get('patient_identifier')):
             log.error("The identifier format is incorrect.")
             raise ValidationError("Invalid identifier format, the correct format must contain 11 chars.")
         if not validate_date(data.get('appointment_day')):
@@ -34,8 +40,6 @@ class ScheduleUpdateSchema(Schema):
     class Meta:
         model = Scheduling
 
-    patient_identifier = Types.String()
-    patient_name = Types.String()
     local = Types.String()
     appointment_day = Types.String()
     return_date = Types.String()
@@ -45,9 +49,6 @@ class ScheduleUpdateSchema(Schema):
 
     @validates_schema
     def validate_data(self, data, **kwargs):
-        if data.get('patient_identifier') and validate_identifier(data.get('patient_identifier')):
-            log.error("The identifier format is incorrect.")
-            raise ValidationError("Invalid identifier format, the correct format must contain 11 chars.")
         if data.get('appointment_day') and not validate_date(data.get('appointment_day')):
             log.error("Invalid date format.")
             raise ValidationError("Invalid exam date format, please follow the instruction model.")

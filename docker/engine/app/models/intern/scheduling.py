@@ -20,4 +20,3 @@ class Scheduling(DefaultModel, db.Model):
     @property
     def protected_fields(self):
         return ['doctor', 'patient']
-

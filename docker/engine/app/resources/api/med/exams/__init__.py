@@ -29,9 +29,9 @@ def add_exam(doctor):
     patient = Users.query.filter_by(identifier=data.get('patient_identifier')).first_or_404()
     doctor = Users.query.filter_by(identifier=doctor.identifier).first_or_404(description="Patient not found.")
     data['patient'] = patient.id
-    data['patient_name'] = patient.user_name
+    data['patient_name'] = patient.full_name
     data['doctor'] = doctor.id
-    data['doctor_name'] = doctor.user_name
+    data['doctor_name'] = doctor.full_name
     exam = convert_json_to_model(Exams(), ExamSchema(), data, converters={'patient_identifier': convert_identifier,
                                                                           'exam_date': convert_string_date_to_datetime,
                                                                           'validity': convert_string_date_to_datetime})

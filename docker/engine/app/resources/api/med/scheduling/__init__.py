@@ -1,6 +1,7 @@
 from engine.app.resources.api import api
 from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.users import Users
+from engine.app.models.intern.scheduling import Scheduling
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.schemas.schedulers.schedule_schema import ScheduleUpdateSchema
@@ -19,28 +20,23 @@ def list_schedules(doctor):
     return jsonify({'Schedules': [x.serialized(x.protected_fields) for x in schedulers]}), 200
 
 
-@api.put('/schedules/<string:identifier>')
+@api.put('/schedules/<string:schedule_id>')
 @api_auth(roles=['doctor'])
-def edit_scheduling(doctor, identifier):
-    log.info(f'Altering scheduling data of user with identifier: {identifier}. Requested by doctor {doctor.username}')
-    doctor = Users.query.filter_by(identifier=doctor.identifier).first_or_404()
+def edit_scheduling(doctor, schedule_id):
+    log.info(f'Altering scheduling data. Requested by doctor {doctor.username}')
+    schedule = Scheduling.query.filter_by(id=schedule_id).first_or_404()
     data = request.json
-    updated_schedule = convert_json_to_model(doctor, ScheduleUpdateSchema(), data)
+    updated_schedule = convert_json_to_model(schedule, ScheduleUpdateSchema(), data)
     log.debug(f'Schedule data altered!')
     return updated_schedule, 200
 
 
-@api.delete('/schedules/<string:identifier>')
-@api_auth(roles=['doctor'])
-def exclude_scheduling(doctor, identifier):
-    log.info(f'Deleting schedule of user {identifier}. Requested by doctor {doctor.username}')
-    doctor = Users.query.filter_by(identifier=doctor.identifier).first_or_404()
-    log.debug(f'Deleting doctor schedule with identifier: {identifier}')
-    try:
-        schedule = list(filter(lambda x: x.patient_identifier == identifier, doctor.doctor_schedulers))[0]
-        schedule.delete()
-    except Exception as e:
-        log.error(f"Error while finding and deleting schedule of user {identifier}: {e}")
-        return jsonify({'Status': 'Conflict!'}), 409
+@api.delete('/schedules/<string:schedule_id>')
+@api_auth(roles=['doctor', 'patient'])
+def exclude_scheduling(user, schedule_id):
+    log.info(f'Deleting schedule. Requested by user {user.username} with identifier {user.identifier}')
+    schedule = Scheduling.query.filter_by(id=schedule_id).first_or_404()
+    log.debug(f'Deleting doctor schedule with id: {schedule_id}')
+    schedule.delete()
     log.info("User deleted!")
     return jsonify({'Status': 'Deleted!'}), 200
