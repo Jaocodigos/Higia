@@ -154,17 +154,18 @@ paths:
       tags:
         - Patient Services
       summary: Mark a new schedule.
+      parameters:
+        - in: path
+          name: doctor_id
+          description: Doctor ID.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
             schema:
               properties:
-                patient_identifier:
-                  type: string
-                  description: Patient identifier(CPF).
-                patient_name:
-                  type: string
-                  description: Patient full name.
                 local:
                   type: string
                   description: Schedule local.
@@ -181,29 +182,6 @@ paths:
           $ref: '#/components/responses/ResponseBadRequest'
         '401':
           $ref: '#/components/responses/ResponseUnauthorized'
-        '500':
-          $ref: '#/components/responses/ResponseInternalServerError'
-      security:
-        - basic: [ ]
-  /patient/schedules/{schedule_id}:
-    delete:
-      tags:
-        - Patient Services
-      summary: Markoff a schedule.
-      parameters:
-        - in: path
-          name: role_name
-          description: Name of created role.
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          $ref: '#/components/responses/ResponseOK'
-        '401':
-          $ref: '#/components/responses/ResponseUnauthorized'
-        '404':
-          $ref: '#/components/responses/ResponseNotFound'
         '500':
           $ref: '#/components/responses/ResponseInternalServerError'
       security:
@@ -280,76 +258,77 @@ paths:
       security:
         - basic: [ ]
 
-    /schedules/{schedule_id}:
-      put:
-        tags:
-          - Schedules
-        summary: Edit a scheduled time data.
-        parameters:
-          - in: path
-            name: schedule_id
-            description: Schedule Id.
-            required: true
+  /schedules/{schedule_id}:
+    put:
+      tags:
+        - Schedules
+      summary: Edit a scheduled time data.
+      parameters:
+        - in: path
+          name: schedule_id
+          description: Schedule Id.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
             schema:
-              type: string
-        requestBody:
-          content:
-            application/json:
-              schema:
-                properties:
-                  patient_identifier:
-                    type: string
-                    description: Patient identifier(CPF).
-                  exam_type:
-                    type: string
-                    description: Exam name.
-                  exam_local:
-                    type: string
-                    description: Exam local.
-                  exam_date:
-                    type: string
-                    format: date
-                    description: Exam date(dd/mm/yyyy).
-                  validity:
-                    type: string
-                    format: date
-                    description: Exam validity(dd/mm/yyyy).
-                  result:
-                    type: string
-                    description: Exam result.
-        responses:
-          '200':
-            $ref: '#/components/responses/ResponseOK'
-          '401':
-            $ref: '#/components/responses/ResponseUnauthorized'
-          '404':
-            $ref: '#/components/responses/ResponseNotFound'
-          '500':
-            $ref: '#/components/responses/ResponseInternalServerError'
-        security:
-          - basic: [ ]
-      delete:
-        tags:
-          - Schedules
-        summary: Delete a scheduled time.
-        parameters:
-          - in: path
-            name: exam_id
-            description: Exam Id.
-            required: true
-            schema:
-              type: string
-        responses:
-          '200':
-            $ref: '#/components/responses/ResponseOK'
-          '401':
-            $ref: '#/components/responses/ResponseUnauthorized'
-          '404':
-            $ref: '#/components/responses/ResponseNotFound'
-          '500':
-            $ref: '#/components/responses/ResponseInternalServerError'
-        security:
-          - basic: [ ]
+              properties:
+                appointment_day:
+                  type: string
+                  format: date
+                  description: Appointment date(dd/mm/yyyy).
+                return_date:
+                  type: string
+                  format: date
+                  description: Return date(dd/mm/yyyy).
+                local:
+                  type: string
+                  description: Schedule local.
+                description:
+                  type: string
+                  description: Schedule additional description.
+                specialty:
+                  type: string
+                  description: Doctor specialty.
+                details:
+                  type: string
+                  description: Schedule details.
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+    delete:
+      tags:
+        - Schedules
+        - Patient Services
+      summary: Delete a scheduled time.
+      parameters:
+        - in: path
+          name: schedule_id
+          description: Schedule Id.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
 
   /settings:
     get:
@@ -451,12 +430,9 @@ paths:
                 email:
                   type: string
                   description: User email.
-                first_name:
+                full_name:
                   type: string
-                  description: User's first name.
-                last_name:
-                  type: string
-                  description: User's last name.
+                  description: User's complete name.
                 password:
                   type: string
                   description: User password.
@@ -467,8 +443,10 @@ paths:
                   type: string
                   description: User's cellphone.
                 roles:
-                  type: string
+                  type: array
                   description: User's privilege role.
+                  items:
+                    type: string
       responses:
         '201':
           $ref: '#/components/responses/ResponseCreated'
@@ -503,12 +481,9 @@ paths:
                 email:
                   type: string
                   description: User email.
-                first_name:
+                full_name:
                   type: string
-                  description: User's first name.
-                last_name:
-                  type: string
-                  description: User's last name.
+                  description: User's complete name.
                 password:
                   type: string
                   description: User password.
@@ -518,6 +493,11 @@ paths:
                 phone:
                   type: string
                   description: User's cellphone.
+                roles:
+                  type: array
+                  description: User's roles.
+                  items:
+                    type: string
       responses:
         '200':
           $ref: '#/components/responses/ResponseOK'
