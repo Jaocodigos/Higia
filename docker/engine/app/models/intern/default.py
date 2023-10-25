@@ -1,5 +1,4 @@
 from engine.app.models import db
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from uuid import uuid4
 
@@ -33,6 +32,10 @@ class DefaultModel(object):
                     continue
                 if isinstance(self.__dict__.get(k), datetime):
                     serialize_data[k] = self.__dict__.get(k).strftime("%d-%m-%Y")
+                elif isinstance(self.__dict__.get(k), list):
+                    serialize_data[k] = list()
+                    for value in self.__dict__.get(k):
+                        serialize_data[k].append(value.serialized(value.protected_fields))
                 else:
                     serialize_data[k] = self.__dict__.get(k)
         else:

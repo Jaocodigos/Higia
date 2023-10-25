@@ -1,53 +1,53 @@
 from engine.app.resources.api import api
 from engine.app.services.authentication.auth_decorators import api_auth
-from engine.app.models.intern.users import Users
-from flask import request, abort, jsonify
+from engine.app.models.intern.patients import Patients
+from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.utils.converters.convert_user_datas import convert_identifier, convert_role_to_model
-from engine.app.schemas.users.user_schema import UserSchema, UserUpdateSchema
+from engine.app.schemas.patients.patient_schema import PatientSchema, PatientUpdateSchema
 import logging
 
 log = logging.getLogger("Higia." + __name__)
 
 
-@api.get('/users')
+@api.get('/patients')
 @api_auth(roles=['administrator'])
-def list_users():
-    log.info('Retrieving users.')
-    users = Users.query.all()
-    log.debug(f'Returning users: {users}')
-    return jsonify({'Users': [x.serialized(x.protected_fields) for x in users]}), 200
+def list_patients():
+    log.info('Retrieving patients.')
+    patients = Patients.query.all()
+    log.debug(f'Returning patients: {patients}')
+    return jsonify({'Patients': [x.serialized(x.protected_fields) for x in patients]}), 200
 
 
-@api.post('/users')
+@api.post('/patients')
 @api_auth(roles=['administrator'])
 def add_user():
     log.info('Creating a new user.')
     data = request.json
-    user = convert_json_to_model(Users(), UserSchema(), data, converters={'identifier': convert_identifier,
-                                                                          'roles': convert_role_to_model})
+    user = convert_json_to_model(Patients(), PatientSchema(), data, converters={'identifier': convert_identifier,
+                                                                                'roles': convert_role_to_model})
     log.debug(f'User created: {user}')
     return user, 201
 
 
-@api.put('/users/<string:identifier>')
+@api.put('/patients/<string:identifier>')
 @api_auth(roles=['administrator'])
 def edit_user(identifier):
     log.info(f'Altering data for user with identifier: {identifier}.')
-    user = Users.query.filter_by(identifier=identifier).first_or_404()
+    patient = Patients.query.filter_by(identifier=identifier).first_or_404()
     data = request.json
-    updated_user = convert_json_to_model(user, UserUpdateSchema(), data, converters={'identifier': convert_identifier,
-                                                                                     'roles': convert_role_to_model})
+    updated_user = convert_json_to_model(patient, PatientUpdateSchema(), data,
+                                         converters={'identifier': convert_identifier, 'roles': convert_role_to_model})
     log.debug(f'User data altered!')
     return updated_user, 200
 
 
-@api.delete('/users/<string:identifier>')
+@api.delete('/patients/<string:identifier>')
 @api_auth(roles=['administrator'])
 def delete_user(identifier):
     log.info(f'Deleting user {identifier}.')
-    user = Users.query.filter_by(identifier=identifier).first_or_404()
-    log.debug(f'Deleting user with ID: {user.id}')
-    user.delete()
+    patient = Patients.query.filter_by(identifier=identifier).first_or_404()
+    log.debug(f'Deleting user with ID: {patient.id}')
+    patient.delete()
     log.info("User deleted!")
     return jsonify({'Status': 'Deleted!'}), 200

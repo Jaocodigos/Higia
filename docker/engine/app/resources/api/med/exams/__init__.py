@@ -1,7 +1,8 @@
 from engine.app.resources.api import api
 from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.exams import Exams
-from engine.app.models.intern.users import Users
+from engine.app.models.intern.collaborators import Collaborators
+from engine.app.models.intern.patients import Patients
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.utils.converters.convert_user_datas import convert_identifier
@@ -16,7 +17,7 @@ log = logging.getLogger("Higia" + __name__)
 @api_auth(roles=['doctor'])
 def list_exams(doctor):
     log.info(f'Retrieving exams registered by Dr. {doctor.username}.')
-    doctor = Users.query.filter_by(identifier=doctor.identifier).first_or_404()
+    doctor = Collaborators.query.filter_by(code=doctor.identifier).first_or_404()
     log.debug(f'Total exams: {len(doctor.doctor_exams)}')
     return jsonify({'Exams': [x.serialized(x.protected_fields) for x in doctor.doctor_exams]}), 200
 
@@ -26,8 +27,8 @@ def list_exams(doctor):
 def add_exam(doctor):
     log.info(f'Creating a new user. Requested by Dr. {doctor.username}.')
     data = request.json
-    patient = Users.query.filter_by(identifier=data.get('patient_identifier')).first_or_404()
-    doctor = Users.query.filter_by(identifier=doctor.identifier).first_or_404(description="Patient not found.")
+    patient = Patients.query.filter_by(identifier=data.get('patient_identifier')).first_or_404()
+    doctor = Collaborators.query.filter_by(identifier=doctor.identifier).first_or_404(description="Patient not found.")
     data['patient'] = patient.id
     data['patient_name'] = patient.full_name
     data['doctor'] = doctor.id

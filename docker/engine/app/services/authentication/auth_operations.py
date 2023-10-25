@@ -1,4 +1,6 @@
-from engine.app.models.intern.users import Users
+from engine.app.models.intern.patients import Patients
+from engine.app.models.intern.collaborators import Collaborators
+from engine.app.utils.converters.convert_user_datas import convert_identifier
 from engine.app.models.intern.settings import Settings
 from datetime import datetime, timedelta
 from os import environ
@@ -26,9 +28,19 @@ def validate_admin(auth):
     return False
 
 
+def validate_user_type(user_model):
+    if user_model.__getattr__('code'):
+        return {'code': user_model.code}
+    else:
+        return {'identifier': user_model.identifier}
+
+
 def validate_login(**kwargs):
     settings = Settings.query.first()
-    user = Users.query.filter_by(identifier=kwargs.get('identifier')).first()
+    if convert_identifier(kwargs.get('identifier')):
+        user = Patients.query.filter_by(identifier=kwargs.get('identifier')).first()
+    else:
+        user = Collaborators.query.filter_by(identifier=kwargs.get('identifier')).first()
     if not user:
         log.debug(f"User with identifier: {kwargs.get('identifier')} not found. Aborting operation.")
         return False, None
@@ -46,5 +58,6 @@ def validate_login(**kwargs):
     log.debug("Login validated! Resetting login tries.")
     user.login_tries = 0
     user.save()
-    user_data = {'username': f'{user.full_name}', 'identifier': user.identifier}
+    user_data = {'username': f'{user.full_name}'}
+    user_data.update(validate_user_type(user))
     return True, user_data

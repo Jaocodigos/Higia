@@ -1,6 +1,6 @@
 from flask_marshmallow import Schema
 from marshmallow import validates_schema, ValidationError
-from engine.app.models.intern.users import Users
+from engine.app.models.intern.patients import Patients
 from engine.app.models.intern.roles import Roles
 from engine.app.schemas.types import Types
 from engine.app.utils.validators.password_validator import validate_password_policy
@@ -10,9 +10,9 @@ import logging
 log = logging.getLogger("Higia." + __name__)
 
 
-class UserSchema(Schema):
+class PatientSchema(Schema):
     class Meta:
-        model = Users
+        model = Patients
 
     identifier = Types.String(required=True)
     email = Types.String(required=True)
@@ -24,7 +24,7 @@ class UserSchema(Schema):
 
     @validates_schema
     def validate_data(self, data, **kwargs):
-        if Users.query.filter_by(identifier=data.get('identifier')).first():
+        if Patients.query.filter_by(identifier=data.get('identifier')).first():
             log.error("This identifier is already in use.")
             raise ValidationError("This identifier is already in use.")
         if not data.get('identifier') or not validate_identifier(data.get('identifier')):
@@ -44,9 +44,9 @@ class UserSchema(Schema):
             raise ValidationError("The inserted role doesn't exist.")
 
 
-class UserUpdateSchema(Schema):
+class PatientUpdateSchema(Schema):
     class Meta:
-        model = Users
+        model = Patients
 
     identifier = Types.String()
     email = Types.String()
@@ -58,7 +58,7 @@ class UserUpdateSchema(Schema):
 
     @validates_schema
     def validate_data(self, data, **kwargs):
-        if data.get('identifier') and Users.query.filter_by(identifier=data.get('identifier')).first():
+        if data.get('identifier') and Patients.query.filter_by(identifier=data.get('identifier')).first():
             log.error("This identifier is already in use.")
             raise ValidationError("This identifier is already in use.")
         if data.get('identifier') and not validate_identifier(data.get('identifier')):

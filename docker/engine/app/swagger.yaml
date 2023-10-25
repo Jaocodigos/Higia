@@ -7,6 +7,110 @@ servers:
   - url: /api
 
 paths:
+  /collaborators:
+    get:
+      tags:
+        - Collaborators
+      summary: Retrieve registered collaborators.
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+    post:
+      tags:
+        - Collaborators
+      summary: Create a new collaborator.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                full_name:
+                  type: string
+                  description: User's complete name.
+                password:
+                  type: string
+                  description: User password.
+                roles:
+                  type: array
+                  description: User's privilege role.
+                  items:
+                    type: string
+      responses:
+        '201':
+          $ref: '#/components/responses/ResponseCreated'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+  /collaborators/{code}:
+    put:
+      tags:
+        - Collaborators
+      summary: Update collaborator data.
+      parameters:
+        - in: path
+          name: code
+          description: Collaborator code.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                full_name:
+                  type: string
+                  description: User's complete name.
+                password:
+                  type: string
+                  description: User password.
+                roles:
+                  type: array
+                  description: User's roles.
+                  items:
+                    type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+    delete:
+      tags:
+        - Collaborators
+      summary: Delete a created collaborator by his code.
+      parameters:
+        - in: path
+          name: code
+          description: Collaborator code.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
   /exams:
     get:
       tags:
@@ -111,6 +215,134 @@ paths:
         - in: path
           name: exam_id
           description: Exam Id.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+  /patients:
+    get:
+      tags:
+        - Patients
+      summary: Retrieve registered patients.
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+    post:
+      tags:
+        - Patients
+      summary: Register a new patient no platform.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                identifier:
+                  type: string
+                  description: User identifier(CPF).
+                email:
+                  type: string
+                  description: User email.
+                full_name:
+                  type: string
+                  description: User's complete name.
+                password:
+                  type: string
+                  description: User password.
+                cep:
+                  type: string
+                  description: CEP for identify localization.
+                phone:
+                  type: string
+                  description: User's cellphone.
+                roles:
+                  type: array
+                  description: User's privilege role.
+                  items:
+                    type: string
+      responses:
+        '201':
+          $ref: '#/components/responses/ResponseCreated'
+        '400':
+          $ref: '#/components/responses/ResponseBadRequest'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+  /patients/{identifier}:
+    put:
+      tags:
+        - Patients
+      summary: Update patient data.
+      parameters:
+        - in: path
+          name: identifier
+          description: Patient identifier(CPF).
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                identifier:
+                  type: string
+                  description: Patient identifier(CPF).
+                email:
+                  type: string
+                  description: Patient email.
+                full_name:
+                  type: string
+                  description: Patient's complete name.
+                password:
+                  type: string
+                  description: Patient password.
+                cep:
+                  type: string
+                  description: CEP for identify localization.
+                phone:
+                  type: string
+                  description: Patient's cellphone.
+                roles:
+                  type: array
+                  description: Patient's roles.
+                  items:
+                    type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseOK'
+        '401':
+          $ref: '#/components/responses/ResponseUnauthorized'
+        '404':
+          $ref: '#/components/responses/ResponseNotFound'
+        '500':
+          $ref: '#/components/responses/ResponseInternalServerError'
+      security:
+        - basic: [ ]
+    delete:
+      tags:
+        - Patients
+      summary: Delete a registered patient from platform by identifier.
+      parameters:
+        - in: path
+          name: identifier
+          description: Patient identifier(CPF).
           required: true
           schema:
             type: string
@@ -403,134 +635,6 @@ paths:
       security:
         - basic: [ ]
 
-  /users:
-    get:
-      tags:
-        - Users
-      summary: Retrieve registered users.
-      responses:
-        '200':
-          $ref: '#/components/responses/ResponseOK'
-        '500':
-          $ref: '#/components/responses/ResponseInternalServerError'
-      security:
-        - basic: [ ]
-    post:
-      tags:
-        - Users
-      summary: Create a new User.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                identifier:
-                  type: string
-                  description: User identifier(CPF).
-                email:
-                  type: string
-                  description: User email.
-                full_name:
-                  type: string
-                  description: User's complete name.
-                password:
-                  type: string
-                  description: User password.
-                cep:
-                  type: string
-                  description: CEP for identify localization.
-                phone:
-                  type: string
-                  description: User's cellphone.
-                roles:
-                  type: array
-                  description: User's privilege role.
-                  items:
-                    type: string
-      responses:
-        '201':
-          $ref: '#/components/responses/ResponseCreated'
-        '400':
-          $ref: '#/components/responses/ResponseBadRequest'
-        '401':
-          $ref: '#/components/responses/ResponseUnauthorized'
-        '500':
-          $ref: '#/components/responses/ResponseInternalServerError'
-      security:
-        - basic: [ ]
-  /users/{identifier}:
-    put:
-      tags:
-        - Users
-      summary: Update user data.
-      parameters:
-        - in: path
-          name: identifier
-          description: User identifier(CPF).
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                identifier:
-                  type: string
-                  description: User identifier(CPF).
-                email:
-                  type: string
-                  description: User email.
-                full_name:
-                  type: string
-                  description: User's complete name.
-                password:
-                  type: string
-                  description: User password.
-                cep:
-                  type: string
-                  description: CEP for identify localization.
-                phone:
-                  type: string
-                  description: User's cellphone.
-                roles:
-                  type: array
-                  description: User's roles.
-                  items:
-                    type: string
-      responses:
-        '200':
-          $ref: '#/components/responses/ResponseOK'
-        '401':
-          $ref: '#/components/responses/ResponseUnauthorized'
-        '404':
-          $ref: '#/components/responses/ResponseNotFound'
-        '500':
-          $ref: '#/components/responses/ResponseInternalServerError'
-      security:
-        - basic: [ ]
-    delete:
-      tags:
-        - Users
-      summary: Delete a created user by identifier.
-      parameters:
-        - in: path
-          name: identifier
-          description: User identifier(CPF).
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          $ref: '#/components/responses/ResponseOK'
-        '401':
-          $ref: '#/components/responses/ResponseUnauthorized'
-        '404':
-          $ref: '#/components/responses/ResponseNotFound'
-        '500':
-          $ref: '#/components/responses/ResponseInternalServerError'
-      security:
-        - basic: [ ]
 
 
 components:

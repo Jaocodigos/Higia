@@ -12,7 +12,7 @@ log = logging.getLogger("Higia." + __name__)
 
 
 @api.get('/settings')
-@api_auth(roles=['administrator', 'users'])
+@api_auth(roles=['administrator', 'patient'])
 def get_config():
     log.info('Retrieving system configs.')
     settings = Settings.query.first_or_404()

@@ -1,7 +1,6 @@
 from flask_marshmallow import Schema
 from marshmallow import validates_schema, ValidationError
 from engine.app.models.intern.scheduling import Scheduling
-from engine.app.models.intern.users import Users
 from engine.app.schemas.types import Types
 from engine.app.utils.validators.identifier_validator import validate_identifier
 from engine.app.utils.validators.date_validator import validate_date

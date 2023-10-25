@@ -1,6 +1,6 @@
 from engine.app.resources.api import api
 from engine.app.services.authentication.auth_decorators import api_auth
-from engine.app.models.intern.users import Users
+from engine.app.models.intern.collaborators import Collaborators
 from engine.app.models.intern.scheduling import Scheduling
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
@@ -14,7 +14,7 @@ log = logging.getLogger("Higia." + __name__)
 @api_auth(roles=['doctor'])
 def list_schedules(doctor):
     log.info(f'Retrieving doctor {doctor.username} schedulers.')
-    doctor = Users.query.filter_by(identifier=doctor.identifier).first_or_404()
+    doctor = Collaborators.query.filter_by(identifier=doctor.identifier).first_or_404()
     schedulers = doctor.doctor_schedulers
     log.debug(f'Schedulers: {len(schedulers)}')
     return jsonify({'Schedules': [x.serialized(x.protected_fields) for x in schedulers]}), 200

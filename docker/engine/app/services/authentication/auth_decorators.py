@@ -14,8 +14,8 @@ def api_auth(roles: list):
                 if validate_admin(auth):
                     return func(*args, **kwargs)
                 else:
-                    validated, user_data = validate_login(identifier=convert_identifier(auth.username), password=auth.password,
-                                                          roles=roles)
+                    validated, user_data = validate_login(code_or_identifier=convert_identifier(auth.username),
+                                                          password=auth.password, roles=roles)
                     if validated:
                         user = DummyUser(**user_data)
                         return func(user, *args, **kwargs)
