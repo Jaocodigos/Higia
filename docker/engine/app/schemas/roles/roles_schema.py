@@ -3,9 +3,9 @@ from flask_marshmallow import Schema
 from marshmallow import validates_schema, ValidationError
 from engine.app.models.intern.roles import Roles
 from engine.app.schemas.types import Types
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 class RoleSchema(Schema):

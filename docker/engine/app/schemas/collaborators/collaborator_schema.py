@@ -4,9 +4,9 @@ from engine.app.models.intern.collaborators import Collaborators
 from engine.app.models.intern.roles import Roles
 from engine.app.schemas.types import Types
 from engine.app.utils.validators.password_validator import validate_password_policy
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 class CollaboratorSchema(Schema):

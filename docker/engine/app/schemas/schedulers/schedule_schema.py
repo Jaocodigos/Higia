@@ -4,9 +4,9 @@ from engine.app.models.intern.scheduling import Scheduling
 from engine.app.schemas.types import Types
 from engine.app.utils.validators.identifier_validator import validate_identifier
 from engine.app.utils.validators.date_validator import validate_date
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 class ScheduleSchema(Schema):

@@ -4,9 +4,9 @@ from engine.app.utils.converters.convert_user_datas import convert_identifier
 from engine.app.models.intern.settings import Settings
 from datetime import datetime, timedelta
 from os import environ
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 try:

@@ -1,7 +1,7 @@
 from engine.app.config.default import set_default_db_config
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 def validate_password_policy(password):

@@ -8,9 +8,9 @@ from engine.app.utils.converters.convert_data_to_model import convert_json_to_mo
 from engine.app.utils.converters.convert_user_datas import convert_identifier
 from engine.app.utils.converters.convert_dates import convert_string_date_to_datetime
 from engine.app.schemas.exams.exam_schema import ExamSchema, ExamUpdateSchema
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia" + __name__)
+log = prepare_logs(__name__)
 
 
 @api.get('/exams')

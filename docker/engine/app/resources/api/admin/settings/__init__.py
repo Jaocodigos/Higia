@@ -6,9 +6,9 @@ from engine.app.utils.converters.convert_data_to_model import convert_json_to_mo
 from engine.app.schemas.settings.settings_schema import SettingsSchema
 from engine.app.models import db
 from engine.app.config.default import set_default_db_config
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 @api.get('/settings')

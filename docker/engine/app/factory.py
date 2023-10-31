@@ -4,9 +4,9 @@ from engine.app.config.swagger_specs import APIDocs, set_swagger_config
 from flask import Flask
 from flask_migrate import Migrate
 from engine.app.schemas import ma
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 app = Flask(__name__)
 

@@ -1,11 +1,11 @@
 from flasgger import Swagger
 from flask import Flask
+from engine.app.config.logs import prepare_logs
 import yaml
 import codecs
-import logging
 import os
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 # Using Safe Loader because the default loader is deprecated

@@ -2,9 +2,9 @@ from flask_marshmallow import Schema
 from flask_sqlalchemy.model import Model
 from marshmallow import ValidationError
 from flask import abort
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 def convert_json_to_model(model: Model, schema: Schema, data: dict, converters={}):

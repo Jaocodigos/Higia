@@ -1,7 +1,7 @@
 from os import environ
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs( __name__)
 
 
 class Config(object):
@@ -12,6 +12,7 @@ class Config(object):
         self.SECRET_KEY = environ['SECRET_KEY']
         self.ADMIN_USERNAME = environ['ADMIN_USERNAME']
         self.ADMIN_PASSWORD = environ['ADMIN_PASSWORD']
+        self.WERKZEUG_RUN_MAIN = True
 
 
 class DevConfig(Config):

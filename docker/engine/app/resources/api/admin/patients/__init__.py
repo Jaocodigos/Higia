@@ -5,9 +5,9 @@ from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.utils.converters.convert_user_datas import convert_identifier, convert_role_to_model
 from engine.app.schemas.patients.patient_schema import PatientSchema, PatientUpdateSchema
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 @api.get('/patients')

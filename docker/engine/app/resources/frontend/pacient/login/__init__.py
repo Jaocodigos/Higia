@@ -3,9 +3,9 @@ from flask import render_template, redirect, url_for, flash
 from engine.app.resources.frontend.pacient.login.form import LoginForm
 from engine.app.models.intern.patients import Patients
 from engine.app.services.authentication.auth_operations import validate_login
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 @view.route('/', methods=['GET', 'POST'])

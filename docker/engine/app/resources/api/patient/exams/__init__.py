@@ -2,9 +2,9 @@ from engine.app.resources.api import api
 from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.patients import Patients
 from flask import jsonify
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 @api.get('/patient/exams')

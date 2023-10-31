@@ -2,9 +2,9 @@ from flask_marshmallow import Schema
 from marshmallow import validates_schema, ValidationError
 from engine.app.models.intern.settings import Settings
 from engine.app.schemas.types import Types
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 log_types = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 

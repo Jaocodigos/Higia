@@ -4,9 +4,9 @@ from engine.app.models.intern.roles import Roles
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.schemas.roles.roles_schema import RoleSchema
-import logging
+from engine.app.config.logs import prepare_logs
 
-log = logging.getLogger("Higia." + __name__)
+log = prepare_logs(__name__)
 
 
 @api.get('/roles')
