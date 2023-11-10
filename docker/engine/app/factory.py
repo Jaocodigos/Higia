@@ -5,6 +5,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from engine.app.schemas import ma
 from engine.app.config.logs import prepare_logs
+from engine.app.handlers.register_handlers import register_handlers
 
 log = prepare_logs(__name__)
 
@@ -14,6 +15,9 @@ app = Flask(__name__)
 def init_app():
     log.debug("Getting environment for config.")
     app.config.from_object(get_flask_config())
+
+    log.debug("Registering error handlers.")
+    register_handlers(app)
 
     log.debug("Init database.")
     db.init_app(app)
