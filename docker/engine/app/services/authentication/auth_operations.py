@@ -29,7 +29,7 @@ def validate_admin(auth):
 
 
 def validate_user_type(user_model):
-    if user_model.__getattr__('code'):
+    if 'code' in user_model.__dict__.keys():
         return {'code': user_model.code}
     else:
         return {'identifier': user_model.identifier}
@@ -37,12 +37,12 @@ def validate_user_type(user_model):
 
 def validate_login(**kwargs):
     settings = Settings.query.first()
-    if convert_identifier(kwargs.get('identifier')):
-        user = Patients.query.filter_by(identifier=kwargs.get('identifier')).first()
+    if convert_identifier(kwargs.get('code_or_identifier')):
+        user = Patients.query.filter_by(identifier=kwargs.get('code_or_identifier')).first()
     else:
-        user = Collaborators.query.filter_by(identifier=kwargs.get('identifier')).first()
+        user = Collaborators.query.filter_by(identifier=kwargs.get('code_or_identifier')).first()
     if not user:
-        log.debug(f"User with identifier: {kwargs.get('identifier')} not found. Aborting operation.")
+        log.debug(f"User with identifier: {kwargs.get('code_or_identifier')} not found. Aborting operation.")
         return False, None
     if not user.check_authorization(kwargs.get('password')):
         log.debug(f"Invalid password. Verifying user login tries.")
