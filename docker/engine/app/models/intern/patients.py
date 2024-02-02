@@ -12,14 +12,13 @@ class Patients(DefaultModel, UsersModel, db.Model):
     full_name = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(13), unique=True)
     cep = db.Column(db.String(255))
-    roles = db.relationship("Roles", secondary=patients_and_roles, back_populates="patients", lazy="joined")
+    roles = db.relationship("Roles", secondary=patients_and_roles, back_populates="patients", lazy="select")
     patient_exams = db.relationship('Exams', lazy='select', foreign_keys='Exams.patient')
     patient_schedulers = db.relationship('Scheduling', lazy='select', foreign_keys='Scheduling.patient')
 
     @property
-    def protected_fields(self):
-        return ['password_hash', 'cep', 'last_login', 'last_password_change', 'patient_exams', 'login_tries',
-                'patient_schedulers', 'blocked_until']
+    def safe_fields(self):
+        return 'full_name', 'identifier', 'email', 'locked'
 
     def check_roles(self, roles: list):
         if len(roles) > 0:

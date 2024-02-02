@@ -6,6 +6,7 @@ from engine.app.utils.converters.convert_data_to_model import convert_json_to_mo
 from engine.app.utils.converters.convert_user_datas import convert_identifier, convert_role_to_model
 from engine.app.schemas.patients.patient_schema import PatientSchema, PatientUpdateSchema
 from engine.app.config.logs import prepare_logs
+from engine.app.utils.queries.build_query import build_query, dict_query
 
 log = prepare_logs(__name__)
 
@@ -14,9 +15,9 @@ log = prepare_logs(__name__)
 @api_auth(roles=['administrator'])
 def list_patients():
     log.info('Retrieving patients.')
-    patients = Patients.query.all()
-    log.debug(f'Returning patients: {patients}')
-    return jsonify({'Patients': [x.serialized(x.protected_fields) for x in patients]}), 200
+    patients = dict_query(build_query(Patients, with_entities=True).all())
+    log.debug(f'Returning patients: {len(patients)}')
+    return jsonify({'Patients': patients}), 200
 
 
 @api.post('/patients')

@@ -19,3 +19,7 @@ def build_query(model, **kwargs):
     if kwargs.get('limit') or kwargs.get('offset'):
         query = query.offset(kwargs.get('offset')).limit(kwargs.get('limit'))
     return query
+
+
+def dict_query(query):
+    return [x._asdict() for x in query]

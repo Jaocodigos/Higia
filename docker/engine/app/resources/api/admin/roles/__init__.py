@@ -5,6 +5,7 @@ from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.schemas.roles.roles_schema import RoleSchema
 from engine.app.config.logs import prepare_logs
+from engine.app.utils.queries.build_query import build_query, dict_query
 
 log = prepare_logs(__name__)
 
@@ -13,9 +14,9 @@ log = prepare_logs(__name__)
 @api_auth(roles=['administrator'])
 def list_roles():
     log.info('Retrieving roles.')
-    roles = Roles.query.all()
-    log.debug(f'Returning roles: {roles}')
-    return jsonify({'Roles': [x.serialized() for x in roles]}), 200
+    roles = dict_query(build_query(Roles).all())
+    log.debug(f'Returning roles: {len(roles)}')
+    return jsonify({'Roles': roles}), 200
 
 
 @api.post('/roles')

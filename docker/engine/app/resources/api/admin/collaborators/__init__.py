@@ -7,6 +7,7 @@ from engine.app.utils.converters.convert_user_datas import convert_identifier, c
 from engine.app.schemas.collaborators.collaborator_schema import CollaboratorSchema, CollaboratorUpdateSchema
 from engine.app.utils.generators.code_generator import generate_code
 from engine.app.config.logs import prepare_logs
+from engine.app.utils.queries.build_query import build_query
 
 log = prepare_logs(__name__)
 
@@ -14,10 +15,10 @@ log = prepare_logs(__name__)
 @api.get('/collaborators')
 @api_auth(roles=['administrator'])
 def list_collaborators():
-    log.info('Retrieving patients.')
-    collaborators = Collaborators.query.all()
-    log.debug(f'Returning patients: {collaborators}')
-    return jsonify({'Collaborators': [x.serialized(x.protected_fields) for x in collaborators]}), 200
+    log.info('Retrieving collaborators.')
+    collaborators = build_query(Collaborators, with_entities=True).all()
+    log.debug(f'Returning collaborators: {len(collaborators)}')
+    return jsonify({'Collaborators': [x._asdict() for x in collaborators]}), 200
 
 
 @api.post('/collaborators')
