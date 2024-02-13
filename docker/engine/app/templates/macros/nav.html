@@ -1,0 +1,23 @@
+<!-- Navbar Structure-->
+
+<div class="container mx-auto flex justify-between items-center">
+    <!-- Logo -->
+    <a href="#" class="text-white text-xl font-semibold font-sans">Logo</a>
+    <!-- Menu -->
+
+    <ul class="flex space-x-4 font-sans">
+      <li><button id="second-sidebar-toggle" class="text-white">Right Sidebar</button>></li>
+    </ul>
+</div>
+
+<aside class="second-sidebar transform right-0 top-0 w-64 bg-gray-800 fixed h-full overflow-y-auto translate-x-full transition-transform duration-300 ease-in-out" id="second-sidebar">
+      <div class="flex justify-between items-center h-16 bg-gray-900 px-4">
+        <span class="text-white">Right Sidebar</span>
+        <button id="second-sidebar-close" class="text-white">&times;</button>
+      </div>
+      <nav class="mt-5">
+        <a href="#" class="block py-2 px-4 text-gray-300 hover:bg-gray-700 hover:text-white">Item 1</a>
+        <a href="#" class="block py-2 px-4 text-gray-300 hover:bg-gray-700 hover:text-white">Item 2</a>
+        <a href="#" class="block py-2 px-4 text-gray-300 hover:bg-gray-700 hover:text-white">Item 3</a>
+      </nav>
+    </aside>

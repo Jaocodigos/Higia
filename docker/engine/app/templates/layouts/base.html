@@ -6,34 +6,81 @@
 
     <!-- Base css links. -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/defaults.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
 
     <style>
         {% block style %}
         {% endblock %}
+
+        .menu-toggle {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+        }
+
+        .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 49;
+          display: none;
+        }
+
     </style>
 </head>
 <body>
-    <h1>OK</h1>
-    {% block content %}
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class=flashes>
-                    {% for category, message in messages %}
-                      <li class="{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-    {% endblock %}
 
+        <!--   Navbar     -->
+        <nav class="bg-gray-800 p-2 h-12">
+            {% include "macros/nav.html" %}
+
+        </nav>
+
+        <!--   Side Nav     -->
+        <aside  class="bg-gray-800 w-64 h-screen fixed inset-y-0 left-0 -translate-x-full transform transition-transform
+         duration-300 ease-in-out" id="sidebar">
+            {% include "macros/side-menu.html" %}
+        </aside>
+
+
+        <!--   Main Content     -->
+        <main>
+            <button class="menu-toggle bg-gray-800 text-white py-2 px-4 rounded-md">Left SideBar</button>
+            <section>
+            {% block content %}{% endblock %}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                        {% for category, message in messages %}
+                          <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            </section>
+        </main>
+
+         <div class="overlay" id="overlay"></div>
+
+    <!--  Footer  -->
+    <footer>
+
+    </footer>
 
     <script>
         {% block scripts %}
         {% endblock %}
     </script>
     <!-- Base script imports. -->
-    <script src="{{ url_for('static', filename='js/config.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/tailwind.config.js') }}"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/tailwind.config.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
 </body>
 </html>
