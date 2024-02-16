@@ -14,12 +14,6 @@
         {% block style %}
         {% endblock %}
 
-        .menu-toggle {
-          position: absolute;
-          top: 20px;
-          left: 20px;
-        }
-
         .overlay {
           position: fixed;
           top: 0;
@@ -36,7 +30,7 @@
 <body>
 
         <!--   Navbar     -->
-        <nav class="bg-gray-800 p-2 h-12">
+        <nav class="bg-gray-800 p-0.5 h-12">
             {% include "macros/nav.html" %}
 
         </nav>
@@ -50,19 +44,20 @@
 
         <!--   Main Content     -->
         <main>
-            <button class="menu-toggle bg-gray-800 text-white py-2 px-4 rounded-md">Left SideBar</button>
-            <section>
-            {% block content %}{% endblock %}
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul class=flashes>
-                        {% for category, message in messages %}
-                          <li class="{{ category }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
+            <section>
+
+                {% block content %}{% endblock %}
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class=flashes>
+                            {% for category, message in messages %}
+                              <li class="{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
             </section>
         </main>
 
@@ -79,6 +74,7 @@
     </script>
     <!-- Base script imports. -->
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://kit.fontawesome.com/52aff52e6d.js" crossorigin="anonymous"></script>
         <script src="{{ url_for('static', filename='js/config.js') }}"></script>
         <script src="{{ url_for('static', filename='js/tailwind.config.js') }}"></script>
         <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
