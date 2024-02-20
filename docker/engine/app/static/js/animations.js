@@ -4,6 +4,7 @@
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const menuToggle = document.querySelector('.menu-toggle');
+const sidebarClose = document.getElementById('sidebar-close');
 
 menuToggle.addEventListener('click', () => {
    sidebar.classList.toggle('-translate-x-full');
@@ -49,4 +50,12 @@ secondSidebarClose.addEventListener('click', () => {
     overlay.classList.toggle('block');
     secondSidebar.classList.toggle('z-50');
     secondSidebarToggle.classList.toggle('z-50');
+});
+
+// Close Sidebar Button
+sidebarClose.addEventListener('click', () => {
+    sidebar.classList.toggle('-translate-x-full');
+    sidebar.classList.toggle('z-50');
+    menuToggle.classList.toggle('z-50');
+    overlay.classList.toggle('block');
 });
