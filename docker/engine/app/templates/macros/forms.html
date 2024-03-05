@@ -1,0 +1,38 @@
+<section class="h-32 w-full bg-gray-600">
+
+</section>
+<section class="h-96 w-full bg-gray-800 flex flex-col justify-center items-center">
+    <form id="h-form" action="POST" class="flex flex-col justify-center items-center opacity-100 transition-opacity duration-500 ease-in-out ">
+        {{ form.csrf_token }}
+        {% for field in form %}
+
+            {% if field.name != "csrf_token" %}
+                <div class="m-2 flex flex-col ">
+                    <label class="text-slate-300 text-xs">{{ field.label.text }}</label>
+                    {{ field(class="h-10 w-80 p-2 bg-transparent rounded-md text-slate-300 transition ease-in hover:text-slate-100 border-solid border border-gray-500") }}
+                </div>
+            {% endif %}
+
+
+        {% endfor %}
+
+        <div class="flex flex-row mt-4">
+            <button onclick="backToInsert()" class="h-10 w-20 m-2 p-2 bg-transparent text-gray-300 border-solid border border-gray-500 transition ease-in hover:bg-gray-600 hover:text-slate-100 rounded shadow">
+                Back</button>
+
+            <button onclick="showRevision()" class="h-10 w-20 m-2 p-2 bg-gray-700 text-gray-300 transition ease-in hover:bg-gray-600 hover:text-slate-100 rounded shadow">
+                Next</button>
+        </div>
+
+    </form>
+
+    <div id="h-revision" class="transition-opacity duration-500 ease-in-out opacity-0 absolute">
+        <h2 class="text-lg font-semibold mb-4">Revisão</h2>
+        <!-- Seção de revisão aqui -->
+        <!-- Você pode adicionar os detalhes de revisão aqui -->
+        <button type="button" onclick="backToInsert()" class="bg-gray-300 text-gray-700 py-2 px-4 rounded">Back</button>
+    </div>
+
+
+</section>
+
