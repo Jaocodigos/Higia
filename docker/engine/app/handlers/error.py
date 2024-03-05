@@ -24,6 +24,7 @@ def handle_default_exceptions(e):
 
 
 def handle_unexpected_exception(e):
+    log.error(f"An unexpected error occurred: {e}")
     if hasattr(request, 'headers') and 'html' in request.headers.get('Accept', []):
         template_500 = 'errors/500.html'
         if hasattr(request, 'app') and request.app:
