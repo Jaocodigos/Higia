@@ -9,7 +9,7 @@ log = prepare_logs(__name__)
 
 
 @view.route('/', methods=['GET', 'POST'])
-def start_app():
+def home():
     # This function os only for test template for now. This will change in the future.
     return render_template('restricted/dashboard.html')
 

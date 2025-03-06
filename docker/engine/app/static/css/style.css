@@ -6,3 +6,10 @@ body {
     background-color: #f0f0f0;
 }
 
+.hide-items{
+    z-index: -100;
+}
+
+.show-item{
+    z-index: 100;
+}

@@ -1,0 +1,19 @@
+
+{% macro confirm_modal() %}
+    <div id="myModal" class="hidden fixed inset-0 overflow-y-auto ">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <!-- Fundo escuro -->
+            <div class="fixed inset-0 bg-gray-900 opacity-50 z-10"></div>
+
+            <!-- Conteúdo do modal -->
+            <div id="modalContent" class="bg-gray-800 text-slate-100 p-6 rounded-lg shadow-lg w-96 z-20 translate-y-full transition-transform duration-300 ease-in-out sm:w-1/2">
+              <!-- Conteúdo do modal aqui -->
+              <h2 class="text-2xl font-bold mb-4">Meu Modal</h2>
+              <p>Este é um modal simples feito com Tailwind CSS.</p>
+
+              <!-- Botão para fechar o modal -->
+              <button onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded mt-4">Fechar</button>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

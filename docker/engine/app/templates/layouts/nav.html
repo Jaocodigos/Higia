@@ -1,0 +1,59 @@
+<!-- Navbar Structure-->
+
+<div class="mx-auto flex items-center">
+    <!-- Left SideBar Button -->
+    <span class="text-gray-300 hover:text-white transition ease-in mr-8 ">
+        <button class="menu-toggle bg-gray-800 py-2 px-2 rounded-md">
+            <i class="fa-solid fa-bars fa-lg"></i>
+        </button>
+    </span>
+
+    <!--  Container  -->
+    <div class="container flex justify-start items-center">
+        <!-- Logo -->
+        <a href="{{ url_for('view.home') }}" class="text-white text-xl font-semibold font-sans">HIGIA</a>
+
+    </div>
+
+    <!-- Right SideBar Button -->
+
+    <div class="container flex justify-end items-center">
+        <span class="text-gray-300 mt-0.5 hover:text-white transition ease-in">
+            <button id="second-sidebar-toggle" class="bg-gray-800 hover:bg-gray-700 py-2 px-4 rounded-md">
+               <i class="fa-regular fa-user fa-lg"></i>
+            </button>
+        </span>
+    </div>
+
+
+
+</div>
+
+<aside class="second-sidebar font-sans transform right-0 top-0 w-64 bg-gray-800 fixed h-full overflow-y-auto translate-x-full transition-transform duration-300 ease-in-out" id="second-sidebar">
+      <div class="flex justify-end items-center h-16 bg-gray-900 px-4">
+        <span class="text-gray-300 hover:text-white transition ease-in">
+            <button id="second-sidebar-close" class="h-6 w-6 bg-gray-900 hover:bg-gray-700 transition ease-in rounded-md">
+                <i class="fa-solid fa-xmark fa-lg"></i>
+            </button>
+        </span>
+      </div>
+
+      <!--   Right Nav    -->
+      <nav class="flex flex-col items-center justify-between mt-5 h-5/6">
+          <div class="text-gray-300 w-full p-2">
+              <a href="#" class="block py-2 px-4  hover:bg-gray-700 hover:text-white rounded-md transition ease-in">Profile</a>
+              <a href="#" class="block py-2 px-4  hover:bg-gray-700 hover:text-white rounded-md transition ease-in">Accessibility</a>
+              <a href="#" class="block py-2 px-4  hover:bg-gray-700 hover:text-white rounded-md transition ease-in">Preferences</a>
+          </div>
+
+          <!--    Logout      -->
+
+          <div class="flex items-end bg-gray-900 h-14 w-full p-2" style="">
+              <a href="#" class="block w-full py-2 px-4 text-gray-300 rounded-md hover:bg-gray-700 hover:text-white transition ease-in">
+                  <span><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Log Out</span>
+              </a>
+          </div>
+
+      </nav>
+
+    </aside>

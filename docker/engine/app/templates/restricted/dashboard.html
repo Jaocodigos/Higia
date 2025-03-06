@@ -1,7 +1,14 @@
-{% extends "layouts/base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
-    {% include "macros/cards.html" %}
+    <section class="flex flex-row m-10 font-sans justify-center">
+
+        {{ cards.render_card("Appointments", "doctor-appointment.png", "View appointments or register a new schedule.", options=[ {"name": "View schedules", "icon": "fa-eye", "url": "#"}, {"name": "New Schedule", "icon": "fa-plus", "url": "#"} ] ) }}
+        {{ cards.render_card("Exams", "exams.png", "View exam results or schedule a new exam.", options=[ {"name": "View Exams", "icon": "fa-eye", "url": "#"}, {"name": "New Exam", "icon": "fa-plus", "url": "#"} ] ) }}
+        {{ cards.render_card("Profile", "profile.png", "View or change your data.", options=[ {"name": "Update Data", "icon": "fa-pencil", "url": "#"} ] ) }}
+
+    </section>
+
 
 {% endblock %}

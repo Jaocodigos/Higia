@@ -1,0 +1,84 @@
+{% macro form_header() %}
+    <section class="h-32 w-full bg-gray-600 flex flex-row items-center justify-center text-slate-300">
+        <div id="insertStep" class="h-20 w-28 flex flex-col justify-center items-center m-2 bg-gray-700 rounded transition-opacity ease-in opacity-100">
+            <div class="h-6 w-6 rounded-full flex justify-center items-center bg-gray-800 m-2">1</div>
+            <p>Insert Data</p>
+        </div>
+        <div class="h-1 w-10 bg-gray-800 rounded-xl"></div>
+        <div id="confirmStep" class="h-20 w-28 flex flex-col justify-center items-center m-2 bg-gray-700 rounded transition-opacity ease-in opacity-40">
+            <div class="h-6 w-6 rounded-full flex justify-center items-center bg-gray-800 m-2">2</div>
+            <p>Confirm Data</p>
+        </div>
+    </section>
+{% endmacro %}
+
+{% macro render_form(form) %}
+    <section class="h-96 w-full bg-gray-800 flex flex-col justify-center items-center">
+        <form action="POST" class="h-full w-full flex flex-col justify-center items-center">
+            {{ form.csrf_token }}
+            <div id="h-form" class="flex flex-col justify-center items-center opacity-100 transition-opacity duration-500 ease-in-out absolute">
+                {% for field in form %}
+
+                    {% if field.name != "csrf_token" and field.name != "submit" %}
+                        <div class="m-2 flex flex-col ">
+                            <label class="text-slate-300 text-xs">{{ field.label.text }}</label>
+                            {{ field(class="h-10 w-80 p-2 bg-transparent rounded-md text-slate-300 transition ease-in hover:text-slate-100 border-solid border border-gray-500") }}
+                        </div>
+                    {% endif %}
+
+
+                {% endfor %}
+
+                <div class="flex flex-row mt-4">
+                    <button onclick="backToInsert()" class="h-10 w-20 m-2 p-2 bg-transparent text-gray-300 border-solid border border-gray-500 transition ease-in hover:bg-gray-600 hover:text-slate-100 rounded shadow">
+                        Back</button>
+
+                    <button id="showRevisionBtn" type="button" class="h-10 w-20 m-2 p-2 bg-gray-700 text-gray-300 transition ease-in hover:bg-gray-600 hover:text-slate-100 rounded shadow">
+                        Next</button>
+                </div>
+            </div>
+
+
+            <div id="h-revision" class="flex flex-col transition-opacity duration-500 ease-in-out opacity-0 relative">
+
+                <!-- Revision Section -->
+
+                <div id="h-form-submit" class="flex flex-row mt-4">
+                    <button id="backToInsertBtn" type="button" class="h-10 w-20 m-2 p-2 bg-transparent text-gray-300 border-solid border border-gray-500 transition ease-in hover:bg-gray-600 hover:text-slate-100 rounded shadow">
+                        Back</button>
+                    {{ form.submit(class="h-10 w-20 m-2 p-2 bg-gray-700 text-gray-300 cursor-pointer transition ease-in hover:bg-gray-600 hover:text-slate-100 rounded shadow") }}
+                </div>
+            </div>
+
+        </form>
+
+
+
+        <script>
+            const revision_btn = document.getElementById("showRevisionBtn");
+            const insert_btn = document.getElementById("backToInsertBtn");
+            const submit_section = document.getElementById("h-form-submit");
+
+            revision_btn.addEventListener('click', () => {
+                submit_section.previousElementSibling.remove();
+                submit_section.insertAdjacentHTML("beforebegin", "<h2>Review Your Information</h2>")
+                {% for field in form._fields.keys() %}
+                    {% if field != 'submit' and field != 'csrf_token' %}
+                        console.log("campo encontrado")
+                        submit_section.insertAdjacentHTML("beforebegin", "<p><strong>{{form._fields.get(field).label.text}}: </strong>{{ form._fields.get(field).value }}</p>")
+                    {% endif %}
+                {% endfor %}
+                showRevision()
+            })
+
+            insert_btn.addEventListener('click', () => {
+                backToInsert()
+            })
+
+
+
+        </script>
+    </section>
+{% endmacro %}
+
+

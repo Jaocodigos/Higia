@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {{ forms.form_header() }}
+    {{ forms.render_form(form) }}
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/animations/form_animations.js') }}"></script>
+{% endblock %}

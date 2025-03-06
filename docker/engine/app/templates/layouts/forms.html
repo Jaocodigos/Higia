@@ -1,0 +1,54 @@
+<section class="h-32 w-full bg-gray-600 flex flex-row items-center justify-center text-slate-300">
+    <div id="insertStep" class="h-20 w-28 flex flex-col justify-center items-center m-2 bg-gray-700 rounded transition-opacity ease-in opacity-100">
+        <div class="h-6 w-6 rounded-full flex justify-center items-center bg-gray-800 m-2">1</div>
+        <p>Insert Data</p>
+    </div>
+    <div class="h-1 w-10 bg-gray-800 rounded-xl"></div>
+    <div id="confirmStep" class="h-20 w-28 flex flex-col justify-center items-center m-2 bg-gray-700 rounded transition-opacity ease-in opacity-40">
+        <div class="h-6 w-6 rounded-full flex justify-center items-center bg-gray-800 m-2">2</div>
+        <p>Confirm Data</p>
+    </div>
+</section>
+<section class="h-96 w-full bg-gray-800 flex flex-col justify-center items-center">
+    <form action="POST" class="h-full w-full flex flex-col justify-center items-center">
+        {{ form.csrf_token }}
+        <div id="h-form" class="flex flex-col justify-center items-center opacity-100 transition-opacity duration-500 ease-in-out absolute">
+            {% for field in form %}
+
+                {% if field.name != "csrf_token" and field.name != "submit" %}
+                    <div class="m-2 flex flex-col ">
+                        <label class="text-slate-300 text-xs">{{ field.label.text }}</label>
+                        {{ field(class="h-10 w-80 p-2 bg-transparent rounded-md text-slate-300 transition ease-in hover:text-slate-100 border-solid border border-gray-500") }}
+                    </div>
+                {% endif %}
+
+
+            {% endfor %}
+
+            <div class="flex flex-row mt-4">
+                <button onclick="backToInsert()" class="h-10 w-20 m-2 p-2 bg-transparent text-gray-300 border-solid border border-gray-500 transition ease-in hover:bg-gray-600 hover:text-slate-100 rounded shadow">
+                    Back</button>
+
+                <button id="showRevisionBtn" type="button" class="h-10 w-20 m-2 p-2 bg-gray-700 text-gray-300 transition ease-in hover:bg-gray-600 hover:text-slate-100 rounded shadow">
+                    Next</button>
+            </div>
+        </div>
+
+
+        <div id="h-revision" class="flex flex-col transition-opacity duration-500 ease-in-out opacity-0 relative">
+            <h2 class="text-lg font-semibold mb-4">Revision</h2>
+            <!-- Revision Section -->
+            <div class="flex flex-row mt-4">
+                <button id="backToInsertBtn" type="button" class="h-10 w-20 m-2 p-2 bg-transparent text-gray-300 border-solid border border-gray-500 transition ease-in hover:bg-gray-600 hover:text-slate-100 rounded shadow">
+                    Back</button>
+                {{ form.submit(class="h-10 w-20 m-2 p-2 bg-gray-700 text-gray-300 transition ease-in hover:bg-gray-600 hover:text-slate-100 rounded shadow") }}
+            </div>
+        </div>
+
+    </form>
+
+
+
+
+</section>
+

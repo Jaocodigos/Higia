@@ -1,0 +1,76 @@
+<section class="flex flex-row m-10 font-sans justify-center">
+    <div class="Ccard bg-gray-800 m-4 min-w-32 shadow-md rounded-lg overflow-hidden transition-transform duration-300 transform hover:scale-105 hover-visible relative">
+       <div class="px-6 py-4 w-96 min-w-60 min-h-50 h-80 flex justify-start items-center flex-col text-slate-100">
+          <div class="font-bold text-xl mb-2">Appointments</div>
+          <p class="text-base">View appointments or register a new schedule.</p>
+           <img src="{{ url_for('static', filename='icons/doctor-appointment.png') }}" alt="Schedule" style="width: 35%; margin-top: 30px;">
+       </div>
+
+        <div class="Ccard-body absolute inset-0 bg-gray-800 rounded-lg opacity-0 transition-opacity duration-300 hover:opacity-95">
+            <div class="h-full flex flex-row justify-center items-center">
+                <div class="h-full w-3/6">
+                    <span class="flex flex-row justify-center items-center cursor-pointer h-full w-full text-gray-300 bg-gray-900 hover:bg-gray-700 hover:text-white transition ease-in">
+                        <a class="  transition ease-in rounded-md" >
+                            <i class="fa-solid fa-eye fa-xl"></i> View schedules
+                        </a>
+                    </span>
+                </div>
+                <div class="h-full w-3/6">
+                    <span class=" flex flex-row justify-center items-center h-full w-full text-gray-300 cursor-pointer bg-gray-900 hover:bg-gray-700 hover:text-white transition ease-in">
+                        <a class=" transition ease-in rounded-md">
+                            <i class="fa-solid fa-plus fa-xl"></i> New Schedule
+                        </a>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="Ccard bg-gray-800 m-4 min-w-32 shadow-md rounded-lg overflow-hidden transition-transform duration-300 transform hover:scale-105 hover-visible relative">
+       <div class="px-6 py-4 w-96 min-w-60 min-h-50 h-80 flex justify-start items-center flex-col text-slate-100">
+          <div class="font-bold text-xl mb-2">Exams</div>
+          <p class="text-base">View exam results or schedule a new exam.</p>
+           <img src="{{ url_for('static', filename='icons/exams.png') }}" alt="Schedule" style="width: 35%; margin-top: 30px;">
+       </div>
+
+        <div class="Ccard-body absolute inset-0 bg-gray-800 rounded-lg opacity-0 transition-opacity duration-300 hover:opacity-95">
+            <div class="h-full flex flex-row justify-center items-center">
+                <div class="h-full w-3/6">
+                    <span class="h-full w-full text-gray-300 hover:text-white transition ease-in">
+                        <a class="bg-gray-900 hover:bg-gray-700 transition ease-in rounded-md">
+                            <i class="fa-solid fa-eye fa-xl"></i> View Exams
+                        </a>
+                    </span>
+                </div>
+                <div class="h-full w-3/6">
+                    <span class="h-full w-full text-gray-300 hover:text-white transition ease-in">
+                        <a class="bg-gray-900 hover:bg-gray-700 transition ease-in rounded-md" href="{{ url_for('view.register_exam') }}>
+                            <i class="fa-solid fa-plus fa-xl"></i> New Exam
+                        </a>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="Ccard bg-gray-800 m-4 min-w-32 shadow-md rounded-lg overflow-hidden transition-transform duration-300 transform hover:scale-105 hover-visible relative">
+       <div class="px-6 py-4 w-96 min-w-60 min-h-50 h-80 flex justify-start items-center flex-col text-slate-100">
+          <div class="font-bold text-xl mb-2">User Data</div>
+          <p class="text-base">View or change your data.</p>
+           <img src="{{ url_for('static', filename='icons/profile.png') }}" alt="Schedule" style="width: 40%; margin-top: 30px;">
+       </div>
+
+        <div class="Ccard-body absolute inset-0 bg-gray-800 rounded-lg opacity-0 transition-opacity duration-300 hover:opacity-95">
+            <div class="h-full flex flex-row justify-center items-center">
+                <div class="h-full w-full">
+                    <span class="h-full w-full text-gray-300 hover:text-white transition ease-in">
+                        <a class="bg-gray-900 hover:bg-gray-700 transition ease-in rounded-md">
+                            <i class="fa-solid fa-pencil fa-xl"></i>  Update Data
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
