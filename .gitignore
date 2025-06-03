@@ -1,5 +1,20 @@
-# Common archives
+# Python Virtualenv
+pip-selfcheck.json
+*.egg-info
+*.cache
+**/*.tmp
+*.iml
+*.xml
+.env
+.overrides
 venv
+
+# local development
+data.db*
+logs/
+**/*.log
+.coverage
+**/*.pyc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
