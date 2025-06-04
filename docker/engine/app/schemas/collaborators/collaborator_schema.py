@@ -16,7 +16,7 @@ class CollaboratorSchema(Schema):
     full_name = Types.String(required=True)
     code = Types.String(required=True)
     password = Types.String(required=True)
-    roles = Types.List(Types.String(), default='nurse')
+    roles = Types.List(Types.String())
 
     @validates_schema
     def validate_data(self, data, **kwargs):
