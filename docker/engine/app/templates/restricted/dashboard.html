@@ -5,7 +5,7 @@
     <section class="flex flex-row m-10 font-sans justify-center">
 
         {{ cards.render_card("Appointments", "doctor-appointment.png", "View appointments or register a new schedule.", options=[ {"name": "View schedules", "icon": "fa-eye", "url": "#"}, {"name": "New Schedule", "icon": "fa-plus", "url": "#"} ] ) }}
-        {{ cards.render_card("Exams", "exams.png", "View exam results or schedule a new exam.", options=[ {"name": "View Exams", "icon": "fa-eye", "url": "#"}, {"name": "New Exam", "icon": "fa-plus", "url": "#"} ] ) }}
+        {{ cards.render_card("Exams", "exams.png", "View exam results or schedule a new exam.", options=[ {"name": "View Exams", "icon": "fa-eye", "url": url_for('view.exams')}, {"name": "New Exam", "icon": "fa-plus", "url": url_for('view.register_exam')} ] ) }}
         {{ cards.render_card("Profile", "profile.png", "View or change your data.", options=[ {"name": "Update Data", "icon": "fa-pencil", "url": "#"} ] ) }}
 
     </section>
