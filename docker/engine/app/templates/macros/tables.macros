@@ -1,0 +1,26 @@
+{% macro build_table(table_name, data=[], table_columns=[]) %}
+
+    <script>
+
+        const { Grid, html } = gridjs;
+
+        const grid = new Grid({
+          columns: {{ table_columns }},
+          data: {{ data }},
+          className: {
+            td: 'table-rows',
+            th: 'table-rows',
+            tr: 'table-rows',
+            thead: 'table-content',
+            table: 'table-content',
+            tbody: 'table-content',
+          },
+          pagination: true,
+          search: true,
+          sort: true,
+          resizable: true,
+        }).render(document.getElementById("{{ table_name }}"));
+
+    </script>
+
+{% endmacro %}

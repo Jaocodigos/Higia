@@ -7,8 +7,11 @@
     <!-- Base css links. -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
+
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet"/> <!-- Add this file to project -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/52aff52e6d.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script> <!-- Add this file to project -->
 
     <style>
         {% block style %}
@@ -31,6 +34,8 @@
         {% import "macros/cards.macros" as cards %}
         {% import "macros/forms.macros" as forms %}
         {% import "macros/modals.macros" as modals %}
+        {% import "macros/tables.macros" as tables %}
+
 
         <!--   Left Nav     -->
         <nav class="bg-gray-800 p-0.5 h-12">

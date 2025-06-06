@@ -14,7 +14,7 @@
 
 {% macro render_form(form) %}
     <section class="h-96 w-full bg-gray-800 flex flex-col justify-center items-center">
-        <form action="POST" class="h-full w-full flex flex-col justify-center items-center">
+        <form method="POST" enctype="multipart/form-data" class="h-full w-full flex flex-col justify-center items-center">
             {{ form.csrf_token }}
             <div id="h-form" class="flex flex-col justify-center items-center opacity-100 transition-opacity duration-500 ease-in-out absolute">
                 {% for field in form %}
@@ -60,11 +60,15 @@
             const submit_section = document.getElementById("h-form-submit");
 
             revision_btn.addEventListener('click', () => {
-                submit_section.previousElementSibling.remove();
+                const sibling = submit_section.previousElementSibling;
+                if (sibling) {
+                    sibling.remove();
+                } else {
+                    console.warn("Element not found.");
+                }
                 submit_section.insertAdjacentHTML("beforebegin", "<h2>Review Your Information</h2>")
                 {% for field in form._fields.keys() %}
                     {% if field != 'submit' and field != 'csrf_token' %}
-                        console.log("campo encontrado")
                         submit_section.insertAdjacentHTML("beforebegin", "<p><strong>{{form._fields.get(field).label.text}}: </strong>{{ form._fields.get(field).value }}</p>")
                     {% endif %}
                 {% endfor %}

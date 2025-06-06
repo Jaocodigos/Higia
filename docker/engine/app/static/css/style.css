@@ -13,3 +13,41 @@ body {
 .show-item{
     z-index: 100;
 }
+
+
+.table-content {
+        background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1)) !important;
+    }
+
+.table-rows {
+    background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1)) !important ;
+    margin: 10px;
+    border: 3px solid rgb(17 24 39 / var(--tw-bg-opacity, 1)) !important;
+    border-radius: 8px !important;
+    color: #c5c5c5;
+}
+
+.table-rows th {
+    color: #c3c3c3 !important;
+
+}
+
+.gridjs-wrapper,
+.gridjs-footer,
+.gridjs-pagination,
+.gridjs-search-input {
+    background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1)) !important;
+    border: none !important;
+    color: #c3c3c3 !important;
+}
+
+.gridjs-sort {
+    background-color: #c1c1c1 !important;
+    border-radius: 6px;
+}
+
+.gridjs-pages button {
+    background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1)) !important ;
+    color: #c3c3c3 !important;
+    border: 1px solid rgb(40 50 64 / var(--tw-bg-opacity, 1)) !important;
+}
