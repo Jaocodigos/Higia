@@ -3,7 +3,7 @@ from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.settings import Settings
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
-from engine.app.schemas.settings.settings_schema import SettingsSchema
+from engine.app.schemas.settings import SettingsSchema
 from engine.app.models import db
 from engine.app.config.default import set_default_db_config
 from engine.app.config.logs import prepare_logs

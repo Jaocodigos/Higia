@@ -7,7 +7,7 @@ from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.utils.converters.convert_user_datas import convert_identifier
 from engine.app.utils.converters.convert_dates import convert_string_date_to_datetime
-from engine.app.schemas.exams.exam_schema import ExamSchema, ExamUpdateSchema
+from engine.app.schemas.exams import ExamSchema, ExamUpdateSchema
 from engine.app.config.logs import prepare_logs
 
 log = prepare_logs(__name__)

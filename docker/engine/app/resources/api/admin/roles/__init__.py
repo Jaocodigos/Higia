@@ -3,7 +3,7 @@ from engine.app.services.authentication.auth_decorators import api_auth
 from engine.app.models.intern.roles import Roles
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
-from engine.app.schemas.roles.roles_schema import RoleSchema
+from engine.app.schemas.roles import RoleSchema
 from engine.app.config.logs import prepare_logs
 from engine.app.utils.queries.build_query import build_query, dict_query
 
@@ -26,7 +26,7 @@ def add_role():
     data = request.json
     role = convert_json_to_model(Roles(), RoleSchema(), data)
     log.debug(f'Role created: {role["role_name"]}')
-    return jsonify({'RoleID': role['id']}), 201
+    return jsonify({"Status": "Success"}), 201
 
 
 @api.delete('/roles/<string:role_name>')

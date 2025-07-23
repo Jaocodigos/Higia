@@ -11,7 +11,9 @@ log = prepare_logs(__name__)
 @api_auth(roles=['patient'])
 def show_exams(patient):
     log.info(f'Retrieving patient {patient.username} scheduled exams.')
+
     patient = Patients.query.filter_by(identifier=patient.identifier).first_or_404()
     exams = patient.patient_exams
+
     log.debug(f'Schedulers: {len(exams)}')
     return jsonify({'Exams': [x.serialized(x.protected_fields) for x in exams]}), 200

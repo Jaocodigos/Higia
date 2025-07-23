@@ -4,7 +4,7 @@ from engine.app.models.intern.collaborators import Collaborators
 from engine.app.models.intern.scheduling import Scheduling
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
-from engine.app.schemas.schedulers.schedule_schema import ScheduleUpdateSchema
+from engine.app.schemas.schedulers import ScheduleUpdateSchema
 from engine.app.config.logs import prepare_logs
 
 log = prepare_logs(__name__)

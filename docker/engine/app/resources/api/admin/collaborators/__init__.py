@@ -4,7 +4,7 @@ from engine.app.models.intern.collaborators import Collaborators
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.utils.converters.convert_user_datas import convert_identifier, convert_role_to_model
-from engine.app.schemas.collaborators.collaborator_schema import CollaboratorSchema, CollaboratorUpdateSchema
+from engine.app.schemas.collaborators import CollaboratorSchema, CollaboratorUpdateSchema
 from engine.app.utils.generators.code_generator import generate_code
 from engine.app.config.logs import prepare_logs
 from engine.app.utils.queries.build_query import build_query

@@ -6,7 +6,7 @@ from engine.app.models.intern.scheduling import Scheduling
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.utils.converters.convert_dates import convert_string_date_to_datetime
-from engine.app.schemas.schedulers.schedule_schema import ScheduleSchema
+from engine.app.schemas.schedulers import ScheduleSchema
 from engine.app.config.logs import prepare_logs
 
 log = prepare_logs(__name__)

@@ -4,7 +4,7 @@ from engine.app.models.intern.patients import Patients
 from flask import request, jsonify
 from engine.app.utils.converters.convert_data_to_model import convert_json_to_model
 from engine.app.utils.converters.convert_user_datas import convert_identifier, convert_role_to_model
-from engine.app.schemas.patients.patient_schema import PatientSchema, PatientUpdateSchema
+from engine.app.schemas.patients import PatientSchema, PatientUpdateSchema
 from engine.app.config.logs import prepare_logs
 from engine.app.utils.queries.build_query import build_query, dict_query
 
@@ -15,7 +15,7 @@ log = prepare_logs(__name__)
 @api_auth(roles=['administrator'])
 def list_patients():
     log.info('Retrieving patients.')
-    patients = dict_query(build_query(Patients, with_entities=True).all())
+    patients = dict_query(build_query(Patients, with_entities=True).all(), True)
     log.debug(f'Returning patients: {len(patients)}')
     return jsonify({'Patients': patients}), 200
 
