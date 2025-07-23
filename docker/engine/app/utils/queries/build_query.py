@@ -21,5 +21,7 @@ def build_query(model, **kwargs):
     return query
 
 
-def dict_query(query):
-    return [x._asdict() for x in query]
+def dict_query(query, with_entities=False):
+    if with_entities:
+        return [{k: ("" if v is None else v) for k, v in x._asdict().items()} for x in query]
+    return [x.serialized(x.protected_fields) for x in query]

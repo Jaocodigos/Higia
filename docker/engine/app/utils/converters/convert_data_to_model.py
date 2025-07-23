@@ -20,7 +20,7 @@ def convert_json_to_model(model: Model, schema: Schema, data: dict, converters={
                 log.debug(f"Converting {x} for pass to model")
                 data[x] = converters[x](data[x])
             if hasattr(model, x):
-                log.debug(f"Inserting on {x} the value {data[x]}")
+                log.debug(f"Inserting in {x} the value {data[x]}")
                 model.__setattr__(x, data[x])
     except (KeyError, ValueError) as e:
         log.error(f"Error inserting data on model: {e}")
