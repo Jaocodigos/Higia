@@ -14,6 +14,10 @@ class Collaborators(DefaultModel, UsersModel, db.Model):
     doctor_schedulers = db.relationship('Scheduling', lazy='select', foreign_keys='Scheduling.doctor')
 
     @property
+    def protected_fields(self):
+        return 'id', 'password_hash'
+
+    @property
     def safe_fields(self):
         return 'id', 'full_name', 'locked'
 

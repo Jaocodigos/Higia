@@ -18,7 +18,7 @@ class Patients(DefaultModel, UsersModel, db.Model):
 
     @property
     def safe_fields(self):
-        return 'full_name', 'identifier', 'email', 'locked'
+        return 'full_name', 'identifier', 'email', 'locked', 'cep', 'phone'
 
     def check_roles(self, roles: list):
         if len(roles) > 0:

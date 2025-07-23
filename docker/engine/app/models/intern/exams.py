@@ -21,6 +21,10 @@ class Exams(DefaultModel, db.Model):
         return ['doctor', 'patient']
 
     @property
+    def table_content(self):
+        return ['exam_type', 'doctor_name', 'exam_date']
+
+    @property
     def exam_date_formatted(self):
         return self.exam_date.strftime("%d/%m/%Y, %H:%M:%S")
 
