@@ -56,7 +56,7 @@ class DefaultModel(object):
             for k in self.table_content:
                 if k in self.__dict__.keys():
                     if isinstance(self.__dict__.get(k), datetime):
-                        serialize_data.append(self.__dict__.get(k).strftime("%d-%m-%Y"))
+                        serialize_data.append(self.__dict__.get(k).strftime("%d/%m/%Y"))
                     else:
                         serialize_data.append(self.__dict__.get(k))
 
