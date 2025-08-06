@@ -38,12 +38,15 @@ class DefaultModel(object):
 
                 if k in protected_fields or k in self.default_hided_keys:
                     continue
+
                 if isinstance(self.__dict__.get(k), datetime):
                     serialize_data[k] = self.__dict__.get(k).strftime("%d-%m-%Y")
+
                 elif isinstance(self.__dict__.get(k), list):
                     serialize_data[k] = list()
                     for value in self.__dict__.get(k):
                         serialize_data[k].append(value.serialized(value.protected_fields))
+
                 else:
                     serialize_data[k] = self.__dict__.get(k)
 
@@ -53,8 +56,10 @@ class DefaultModel(object):
 
         serialize_data = list()
         if self.id:
+
             for k in self.table_content:
                 if k in self.__dict__.keys():
+
                     if isinstance(self.__dict__.get(k), datetime):
                         serialize_data.append(self.__dict__.get(k).strftime("%d/%m/%Y"))
                     else:

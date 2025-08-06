@@ -50,7 +50,7 @@ def edit_collaborator(code):
 @api_auth(roles=['administrator'])
 def delete_collaborator(code):
     log.info(f'Deleting collaborator with code: {code}.')
-    collaborator = Collaborators.query.filter_by(code=code).first_or_404()
+    collaborator = Collaborators.query.filter_by(code=code).first_or_404(f"Collaborator with code '{code}' not found.")
     log.debug(f'Deleting collaborator with ID: {collaborator.id}')
     collaborator.delete()
     log.info("Collaborator deleted!")

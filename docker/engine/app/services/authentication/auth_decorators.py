@@ -5,6 +5,8 @@ from engine.app.services.authentication.auth_operations import validate_login, v
 from engine.app.utils.base_classes.dummy_user import DummyUser
 
 
+LOGIN_ENDPOINT = "/login"
+
 def api_auth(roles: list):
     def decorator(func):
         @wraps(func)
@@ -32,15 +34,29 @@ def login_required(roles: list):
     def decorator(func):
         @wraps(func)
         def wrap(*args, **kwargs):
-            if session.get("user") :
-                user_data = dict(username=session.get("user"), code=session.get("code"),
-                                 identifier=session.get("identifier"))
-                if session.get("role") in roles:
-                    user = DummyUser(**user_data)
-                    return func(user, *args, **kwargs)
+            if session.get("user"):
+
+                if not roles or session.get("role") in roles:
+                    return func(*args, **kwargs)
+
                 flash("You're not allowed to proceed with this operation.", "danger")
                 return redirect("view.home")
+
             flash("Unauthorized, please authenticate again.", "danger")
             return redirect(url_for("view.login"))
+        return wrap
+    return decorator
+
+def check_login_route():
+    def decorator(func):
+        @wraps(func)
+        def wrap(*args, **kwargs):
+
+            if LOGIN_ENDPOINT in request.url and session.get("user"):
+                flash("You're already logged in.", "success")
+                return redirect(url_for("view.home"))
+
+            return func(*args, **kwargs)
+
         return wrap
     return decorator

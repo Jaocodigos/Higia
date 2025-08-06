@@ -21,7 +21,7 @@ class ExamSchema(Schema):
     patient_name = Types.String(required=True)
     doctor = Types.String(required=True)
     doctor_name = Types.String(required=True)
-    validity = Types.String(required=True)
+    validity = Types.String(required=False)
     result = Types.String()
 
     @validates_schema

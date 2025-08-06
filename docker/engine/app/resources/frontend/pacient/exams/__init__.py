@@ -6,25 +6,31 @@ from engine.app.config.logs import prepare_logs
 from engine.app.models import db, Exams, Collaborators
 from engine.app.schemas.exams import ExamSchema
 from engine.app.utils.converters import convert_json_to_model, form_to_json
+from engine.app.services.authentication.auth_decorators import login_required
 
 log = prepare_logs(__name__)
 
 
 @view.route('/exams', methods=['GET'])
+@login_required([])
 def exams():
     scheduled_exams = db.session.execute(db.select(Exams)).scalars().all()
     if scheduled_exams:
-        scheduled_exams = scheduled_exams.serialized()
+        scheduled_exams = [x.convert_data_to_table() for x in scheduled_exams]
+
     return render_template('restricted/exams/list.html', exams=scheduled_exams)
 
 
 @view.route('/exams/new', methods=['GET', 'POST'])
+@login_required([])
 def register_exam():
     doctors = db.session.execute(db.select(Collaborators)).scalars()
     exam_form = ExamForm(doctors)
     if exam_form.validate_on_submit():
-        payload = form_to_json(exam_form)
-        convert_json_to_model(Exams(), ExamSchema(), payload)
+
+        exam_data = form_to_json(exam_form)
+        convert_json_to_model(Exams(), ExamSchema(), exam_data)
         flash('Exam scheduled!', 'success')
         return redirect(url_for('views.exams'))
+
     return render_template('restricted/exams/form.html', form=exam_form)

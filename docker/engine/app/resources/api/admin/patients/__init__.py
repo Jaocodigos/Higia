@@ -37,10 +37,9 @@ def edit_user(identifier):
     log.info(f'Altering data for user with identifier: {identifier}.')
     patient = Patients.query.filter_by(identifier=identifier).first_or_404()
     data = request.json
-    updated_user = convert_json_to_model(patient, PatientUpdateSchema(), data,
-                                         converters={'identifier': convert_identifier, 'roles': convert_role_to_model})
+    convert_json_to_model(patient, PatientUpdateSchema(), data, converters={'identifier': convert_identifier, 'roles': convert_role_to_model})
     log.debug(f'User data altered!')
-    return updated_user, 200
+    return jsonify({'Status': 'Updated!'}), 200
 
 
 @api.delete('/patients/<string:identifier>')

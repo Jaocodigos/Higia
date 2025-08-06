@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<div id="table-test" class="m-10"></div>
+<div id="exam-table" class="m-10"></div>
 
-{{ tables.build_table("table-test", [["João", "joao@gmail.com", "(11) 91111-1111"]], ["Name", "Email", "Phone Number"]) }}
+{{ tables.build_table("exam-table", exams, ["Exam Type", "Doctor Name", "Date"]) }}
 
 {% endblock %}
 

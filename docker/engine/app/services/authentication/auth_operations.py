@@ -65,6 +65,6 @@ def validate_login(**kwargs):
     log.debug("Login validated! Resetting login tries.")
     user.login_tries = 0
     user.save()
-    user_data = {'username': f'{user.full_name}'}
+    user_data = {'username': f'{user.full_name}', 'roles': [x.role_name for x in user.roles]}
     user_data.update(validate_user_type(user))
     return True, user_data

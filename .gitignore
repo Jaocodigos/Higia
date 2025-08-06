@@ -22,3 +22,6 @@ __pycache__/
 
 #log archives
 docker/engine/logs
+
+#Local Development
+**/todo.txt

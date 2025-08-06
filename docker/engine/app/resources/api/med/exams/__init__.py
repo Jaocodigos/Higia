@@ -17,7 +17,7 @@ log = prepare_logs(__name__)
 @api_auth(roles=['doctor'])
 def list_exams(doctor):
     log.info(f'Retrieving exams registered by Dr. {doctor.username}.')
-    doctor = Collaborators.query.filter_by(code=doctor.identifier).first_or_404()
+    doctor = Collaborators.query.filter_by(code=doctor.code).first_or_404()
     log.debug(f'Total exams: {len(doctor.doctor_exams)}')
     return jsonify({'Exams': [x.serialized(x.protected_fields) for x in doctor.doctor_exams]}), 200
 
@@ -27,8 +27,8 @@ def list_exams(doctor):
 def add_exam(doctor):
     log.info(f'Creating a new user. Requested by Dr. {doctor.username}.')
     data = request.json
-    patient = Patients.query.filter_by(identifier=data.get('patient_identifier')).first_or_404()
-    doctor = Collaborators.query.filter_by(identifier=doctor.identifier).first_or_404(description="Patient not found.")
+    patient = Patients.query.filter_by(identifier=data.get('patient_identifier')).first_or_404(f"Patient with identifier {data.get('patient_identifier')} not found.")
+    doctor = Collaborators.query.filter_by(code=doctor.code).first_or_404(description="Doctor not found.")
     data['patient'] = patient.id
     data['patient_name'] = patient.full_name
     data['doctor'] = doctor.id
