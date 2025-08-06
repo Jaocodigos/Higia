@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="appoints-table" class="m-10"></div>
+
+{{ tables.build_table("appoints-table", appointments, ["Doctor Name", "Specialty", "Date"]) }}
+
+{% endblock %}
+

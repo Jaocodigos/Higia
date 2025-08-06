@@ -20,3 +20,7 @@ class Scheduling(DefaultModel, db.Model):
     @property
     def protected_fields(self):
         return ['doctor', 'patient']
+
+    @property
+    def table_content(self):
+        return ['doctor_name', 'specialty', 'appointment_day']
