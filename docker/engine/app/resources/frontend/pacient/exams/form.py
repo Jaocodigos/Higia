@@ -5,14 +5,12 @@ from wtforms.validators import DataRequired
 
 class ExamForm(FlaskForm):
 
-    def __init__(self, doctors, *args, **kwargs):
-        doctors = [(x, x.full_name) for x in doctors] if doctors else []
-        self.doctor.kwargs['choices'] = doctors
-        super(ExamForm, self).__init__(*args, **kwargs)
+    patient_identifier = StringField('Patient CPF', validators=[DataRequired()])
+    patient_name = StringField('Patient Name', render_kw={'disabled': True})
 
-    exam_type = SelectField('Exam Type', choices=[('blood', 'Blood Test'), ('audiometry', 'Audiometry')], validators=[DataRequired()])
-    doctor = SelectField('Doctor', choices=[], validators=[DataRequired()])
+    exam_type = SelectField('Exam Type', choices=[('Blood Test', 'Blood Test'), ('Audiometry', 'Audiometry')], validators=[DataRequired()])
+
     exam_date = DateField(validators=[DataRequired()])
-    exam_hour = SelectField('Exam Hour', choices=[('12', '12:00'), ('13', '13:00'), ('14', '14:00')],
+    exam_hour = SelectField('Exam Hour', choices=[('12:00', '12:00'), ('13:00', '13:00'), ('14:00', '14:00')],
                             validators=[DataRequired()])
     submit = SubmitField('Confirm')

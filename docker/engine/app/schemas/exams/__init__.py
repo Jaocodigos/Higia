@@ -14,24 +14,27 @@ class ExamSchema(Schema):
         model = Exams
 
     patient_identifier = Types.String(required=True)
-    exam_type = Types.String(required=True)
-    exam_local = Types.String(required=True)
-    exam_date = Types.String(required=True)
     patient = Types.String(required=True)
     patient_name = Types.String(required=True)
+
+    exam_type = Types.String(required=True)
+    exam_hour = Types.String(required=False)
+    exam_local = Types.String(required=True)
+    exam_date = Types.String(required=True)
+
     doctor = Types.String(required=True)
     doctor_name = Types.String(required=True)
     validity = Types.String(required=False)
-    result = Types.String()
+    result = Types.String(required=False)
 
     @validates_schema
     def validate_data(self, data, **kwargs):
         if not validate_identifier(data.get('patient_identifier')):
             log.error("The identifier format is incorrect.")
             raise ValidationError("Invalid identifier, the correct format must contain 11 numbers.")
-        if not validate_date(data.get('exam_date')) or not validate_date(data.get('validity')):
-            log.error("Invalid date format.")
-            raise ValidationError("Invalid date format, please follow the instruction model.")
+        if not validate_date(data.get('exam_date')) or ( data.get('validity') and not validate_date(data.get('validity')) ):
+            log.error("Invalid exam date format.")
+            raise ValidationError("Invalid exam date format, please follow the instruction model.")
 
 
 class ExamUpdateSchema(Schema):

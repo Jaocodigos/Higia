@@ -1,3 +1,4 @@
+from flask import session
 from flask_marshmallow import Schema
 from marshmallow import validates_schema, ValidationError
 from engine.app.models.intern.patients import Patients
@@ -58,7 +59,7 @@ class PatientUpdateSchema(Schema):
 
     @validates_schema
     def validate_data(self, data, **kwargs):
-        if data.get('identifier') and Patients.query.filter_by(identifier=data.get('identifier')).first():
+        if data.get('identifier') and data.get('identifier') != session.get('identifier') and Patients.query.filter_by(identifier=data.get('identifier')).first():
             log.error("This identifier is already in use.")
             raise ValidationError("This identifier is already in use.")
         if data.get('identifier') and not validate_identifier(data.get('identifier')):

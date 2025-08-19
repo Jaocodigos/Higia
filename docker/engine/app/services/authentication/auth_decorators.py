@@ -1,6 +1,5 @@
 from functools import wraps
 from flask import request, abort, session, redirect, url_for, flash
-from engine.app.utils.converters.convert_user_datas import convert_identifier
 from engine.app.services.authentication.auth_operations import validate_login, validate_admin
 from engine.app.utils.base_classes.dummy_user import DummyUser
 
@@ -36,7 +35,7 @@ def login_required(roles: list):
         def wrap(*args, **kwargs):
             if session.get("user"):
 
-                if not roles or session.get("role") in roles:
+                if not roles or any(x in roles for x in session.get("roles")):
                     return func(*args, **kwargs)
 
                 flash("You're not allowed to proceed with this operation.", "danger")

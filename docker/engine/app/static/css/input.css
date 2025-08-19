@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.h-input {
+    @apply h-10 w-80 p-2 bg-transparent rounded-md text-slate-300 border-solid border border-gray-500 transition ease-in  focus:text-slate-100 focus:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300;
+}

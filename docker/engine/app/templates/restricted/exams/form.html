@@ -1,8 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {{ forms.form_header() }}
-    {{ forms.render_form(form) }}
+    {{ forms.form_header(sections=[
+        {
+            "title": "Patient Details",
+            "id": "patient-step"
+        },
+        {
+            "title": "Exam Details",
+            "id": "exam-step"
+        }
+
+
+    ]) }}
+    {{ forms.render_form(form, sections=[
+        {
+            "id": "patient-details",
+            "step_id": "patient-step",
+            "fields": ["patient_identifier", "patient_name"]
+        },
+        {
+            "id": "exam-details",
+            "step_id": "exam-step",
+            "fields": ["exam_type", "exam_date", "exam_hour"]
+        }
+    ]) }}
 
 {% endblock %}
 

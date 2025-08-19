@@ -7,3 +7,4 @@ from engine.app.resources.frontend.med import *
 from engine.app.resources.frontend.pacient.login import *
 from engine.app.resources.frontend.pacient.exams import *
 from engine.app.resources.frontend.pacient.appointments import *
+from engine.app.resources.frontend.users.profile import *

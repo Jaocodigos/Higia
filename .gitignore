@@ -25,3 +25,6 @@ docker/engine/logs
 
 #Local Development
 **/todo.txt
+
+#Node
+docker/engine/node_modules

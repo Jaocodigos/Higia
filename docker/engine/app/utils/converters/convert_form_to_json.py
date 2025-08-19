@@ -5,7 +5,7 @@ def form_to_json(form: FlaskForm) -> dict:
     data  = dict()
     for f in form._fields.keys():
 
-        if f == 'csrf_token' or f == 'submit':
+        if f == 'csrf_token' or f == 'submit' or form._fields[f].data == '':
             continue
 
         elif isinstance(form._fields[f].data, date):

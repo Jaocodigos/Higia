@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {{ forms.form_header([]) }}
-    {{ forms.render_form(form, []) }}
+    <div class="mt-20 h-full w-full">
+        {{ forms.render_form(form, with_revision=False) }}
+    </div>
+
 
 {% endblock %}
 

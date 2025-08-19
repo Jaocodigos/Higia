@@ -27,5 +27,10 @@ def convert_json_to_model(model: Model, schema: Schema, data: dict, converters={
         abort(400, "Invalid data, try again.")
 
     log.debug("Schema load completed! Now saving on DB.")
-    model.save()
+    try:
+        model.save()
+    except Exception as e:
+        log.error(f"Error saving data in model '{model.__name__}': {str(e)}")
+        abort(400, "An unexpected behavior occurred while saving your information, please try again.")
+
     return model.serialized(model.protected_fields)

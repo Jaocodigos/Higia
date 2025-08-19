@@ -13,7 +13,7 @@ log = prepare_logs(__name__)
 
 
 @view.route('/appointments', methods=['GET'])
-@login_required([])
+@login_required(['patient', 'doctor'])
 def appointments():
     appoints = db.session.execute(db.select(Scheduling)).scalars().all()
     if appoints:
@@ -23,7 +23,7 @@ def appointments():
 
 
 @view.route('/appointments/new', methods=['GET', 'POST'])
-@login_required([])
+@login_required(['patient'])
 def schedule_appointment():
     doctors = db.session.execute(db.select(Collaborators)).scalars()
     appointment_form = AppointmentForm(doctors)
@@ -45,6 +45,6 @@ def schedule_appointment():
         convert_json_to_model(Scheduling(), ScheduleSchema(), appointment_data,
                               converters={'appointment_day': convert_string_date_to_datetime})
         flash('Exam scheduled!', 'success')
-        return redirect(url_for('views.appointments'))
+        return redirect(url_for('view.appointments'))
 
-    return render_template('restricted/exams/form.html', form=appointment_form)
+    return render_template('restricted/appointments/form.html', form=appointment_form)

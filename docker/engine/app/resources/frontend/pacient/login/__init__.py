@@ -12,7 +12,8 @@ from engine.app.services.authentication.auth_decorators import check_login_route
 log = prepare_logs(__name__)
 
 
-@view.route('/', methods=['GET', 'POST'])
+@view.get('/')
+@view.get('/home')
 @login_required([])
 def home():
     # This function os only for test template for now. This will change in the future.
@@ -46,7 +47,7 @@ def login():
     return render_template('layouts/login.html', form=login_form)
 
 
-@view.route('/logout', methods=['GET'])
+@view.get('/logout')
 @login_required([])
 def logout():
     erase_session()
